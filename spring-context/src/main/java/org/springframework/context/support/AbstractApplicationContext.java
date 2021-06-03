@@ -628,6 +628,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 
 		// 2.初始化 Environment 的 propertySources 属性
 		//样例<context:property-placeholder location="classpath*:/config/load.properties"/>
+        //非web容器下什么都不做,web容器就重写该方法
 		initPropertySources();
 
 		// 3.校验 Environment 的 requiredProperties 是否都存在

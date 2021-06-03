@@ -53,6 +53,5 @@ public class Entrance {
 		System.out.println("---------------------------分割线以下执行HelloService-------------------------------");
 		HelloService helloService = (HelloService)applicationContext.getBean("helloServiceImpl");
 		helloService.sayHello();*/
-
 	}
 }
