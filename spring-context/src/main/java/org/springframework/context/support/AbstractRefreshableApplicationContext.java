@@ -124,13 +124,16 @@ public abstract class AbstractRefreshableApplicationContext extends AbstractAppl
 	protected final void refreshBeanFactory() throws BeansException {
 		//如果已经有容器，销毁容器中的bean，关闭容器
 		if (hasBeanFactory()) {
+            //销毁beanFactory中的所有Bean
 			destroyBeans();
+            //closeBeanFactory();
 			closeBeanFactory();
 		}
 		try {
 			//创建容器
             //根据父工厂创建一个beanFactory
-            //非web环境下，工厂的父工厂默认为null，web环境下，Spring的beanFactory就是Spring MVC的beanFactory的父工厂
+            //非web环境下，工厂的父工厂默认为null，
+            //web环境下，Spring的beanFactory就是Spring MVC的beanFactory的父工厂
 			DefaultListableBeanFactory beanFactory = createBeanFactory();
             //用于 BeanFactory 的序列化，我想不部分人应该都用不到
 			beanFactory.setSerializationId(getId());

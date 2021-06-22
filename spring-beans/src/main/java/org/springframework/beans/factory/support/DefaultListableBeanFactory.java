@@ -1075,8 +1075,11 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 
 	@Override
 	public void destroySingletons() {
+        //调用父类的destroySingleton方法
 		super.destroySingletons();
+        //当前的beanName从手动注册bean名称集合manualSingletonNames缓存中移除
 		updateManualSingletonNames(Set::clear, set -> !set.isEmpty());
+        //删除有关按类型映射的任何缓存，即清空allBeanNamesByType和singletonBeanNamesByType集合
 		clearByTypeCache();
 	}
 
@@ -1097,6 +1100,8 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 	 * @param condition a precondition for the modification action
 	 * (if this condition does not apply, the action can be skipped)
 	 */
+	//registerSingleton(String beanName, Object singletonObject)方法注册的bean在注册bean定义完成之后，
+    //Spring会手动注册一些bean，比如前面说的环境变量：“environment”、“systemProperties”。
 	private void updateManualSingletonNames(Consumer<Set<String>> action, Predicate<Set<String>> condition) {
 		if (hasBeanCreationStarted()) {
 			// Cannot modify startup-time collection elements anymore (for stable iteration)

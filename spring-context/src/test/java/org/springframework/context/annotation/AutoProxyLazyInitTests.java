@@ -21,7 +21,7 @@ import javax.annotation.PreDestroy;
 import org.junit.jupiter.api.Test;
 
 import org.springframework.aop.framework.autoproxy.BeanNameAutoProxyCreator;
-import org.springframework.aop.framework.autoproxy.target.LazyInitTargetSourceCreator;
+import org.springframework.aop.framework.autoproxy.LazyInitTargetSourceCreator;
 import org.springframework.aop.target.AbstractBeanFactoryBasedTargetSource;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationListener;

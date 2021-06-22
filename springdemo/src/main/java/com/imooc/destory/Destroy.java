@@ -3,9 +3,7 @@ package com.imooc.destory;
 import org.springframework.beans.factory.DisposableBean;
 
 /**
- * @author wangchao
- * @description TODO
- * @date 2021/04/29 18:00
+ * 测试三种destory回调
  */
 public class Destroy {
 
@@ -14,6 +12,8 @@ public class Destroy {
      * 实现了DisposableBean接口
      */
     public static class Destroy1 implements DisposableBean {
+
+        @Override
         public void destroy() throws Exception {
             System.out.println("destroy1销毁回调");
         }

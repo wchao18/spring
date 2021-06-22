@@ -128,6 +128,7 @@ public class DefaultBeanDefinitionDocumentReader implements BeanDefinitionDocume
 		// this behavior emulates a stack of delegates without actually necessitating one.
 		//BeanDefintion解析委托类
 		BeanDefinitionParserDelegate parent = this.delegate;
+		//重要：1、创建bean定义的解析器 2、解析初始化beans根标签的一些属性（默认属性为default）
 		this.delegate = createDelegate(getReaderContext(), root, parent);
 		//判断这个根节点是否是默认的命名空间，
 		// 底层就是判断这个根节点的nameSpaceUrl=="http://www.springframework.org/schema/beans"
@@ -164,6 +165,7 @@ public class DefaultBeanDefinitionDocumentReader implements BeanDefinitionDocume
 			XmlReaderContext readerContext, Element root, @Nullable BeanDefinitionParserDelegate parentDelegate) {
 
 		BeanDefinitionParserDelegate delegate = new BeanDefinitionParserDelegate(readerContext);
+        //设置解析器默认值，即解析<beans/>根标签的属性
 		delegate.initDefaults(root, parentDelegate);
 		return delegate;
 	}

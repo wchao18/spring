@@ -86,6 +86,7 @@ public abstract class AbstractXmlApplicationContext extends AbstractRefreshableC
 		beanDefinitionReader.setEnvironment(this.getEnvironment());
 		// 将容器本身"献祭"
 		beanDefinitionReader.setResourceLoader(this);
+        //设置SAX 实体解析器，用于分析Document
 		beanDefinitionReader.setEntityResolver(new ResourceEntityResolver(this));
 
 		// Allow a subclass to provide custom initialization of the reader,
