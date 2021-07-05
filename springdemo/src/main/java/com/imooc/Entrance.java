@@ -25,26 +25,25 @@ import java.util.concurrent.TimeUnit;
 @ComponentScan("com.imooc")
 public class Entrance {
 
-	public static void main(String[] args) {
+    public static void main(String[] args) {
 
        /* ClassPathXmlApplicationContext classPathXmlApplicationContext = new ClassPathXmlApplicationContext("spring" +
                 "/spring-config.xml");*/
-        System.setProperty("x","config");
+        System.setProperty("x", "config");
         ClassPathXmlApplicationContext classPathXmlApplicationContext =
                 new ClassPathXmlApplicationContext("spring" + "/spring-${x}.xml");
-        classPathXmlApplicationContext.refresh();
 
-
-        try {
+        //测试刷新
+       /* try {
             TimeUnit.SECONDS.sleep(5);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        classPathXmlApplicationContext.refresh();
+        classPathXmlApplicationContext.refresh();*/
 
 
         Arrays.stream(classPathXmlApplicationContext.getBeanDefinitionNames()).forEach(
-                s-> System.out.println(s)
+                s -> System.out.println(s)
         );
 
 		/*ApplicationContext applicationContext = new AnnotationConfigApplicationContext(Entrance.class);
@@ -53,5 +52,5 @@ public class Entrance {
 		System.out.println("---------------------------分割线以下执行HelloService-------------------------------");
 		HelloService helloService = (HelloService)applicationContext.getBean("helloServiceImpl");
 		helloService.sayHello();*/
-	}
+    }
 }

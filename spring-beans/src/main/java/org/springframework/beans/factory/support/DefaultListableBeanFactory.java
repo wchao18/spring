@@ -930,7 +930,14 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 		BeanDefinition existingDefinition = this.beanDefinitionMap.get(beanName);
 		//看看beanName是否已经存在容器里，存在则表明已经被注册过
 		if (existingDefinition != null) {
+
+            /*
+             * 判断是否不允许 bean 的覆盖
+             * allowBeanDefinitionOverriding属性我们在“customizeBeanFactory配置beanFactory”的部分已经讲过
+             * 普通应用默认为true，boot应用默认false，可以自定义配置
+             */
 			if (!isAllowBeanDefinitionOverriding()) {
+                //如果不允许，那么就是出现同名bean，那么直接抛出异常
 				throw new BeanDefinitionOverrideException(beanName, beanDefinition, existingDefinition);
 			}
 			else if (existingDefinition.getRole() < beanDefinition.getRole()) {
@@ -955,18 +962,21 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 							"] with [" + beanDefinition + "]");
 				}
 			}
+            //使用新的beanDefinition覆盖旧的existingDefinition
 			this.beanDefinitionMap.put(beanName, beanDefinition);
 		}
 		else {
-		    //已经有beanDefinition注册进来了
+            /*如果已经有其他任何bean实例开始初始化了*/
 			if (hasBeanCreationStarted()) {
-			    //增量操作
+                //加锁防止并发操作集合
 				// Cannot modify startup-time collection elements anymore (for stable iteration)
 				synchronized (this.beanDefinitionMap) {
 					this.beanDefinitionMap.put(beanName, beanDefinition);
+					//重新生成一个list
 					List<String> updatedDefinitions = new ArrayList<>(this.beanDefinitionNames.size() + 1);
 					updatedDefinitions.addAll(this.beanDefinitionNames);
 					updatedDefinitions.add(beanName);
+					//重新赋值
 					this.beanDefinitionNames = updatedDefinitions;
 					removeManualSingletonName(beanName);
 				}
@@ -977,6 +987,7 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 				this.beanDefinitionNames.add(beanName);
 				removeManualSingletonName(beanName);
 			}
+            //仅仅在与初始化时才会使用到，很少使用
 			this.frozenBeanDefinitionNames = null;
 		}
 		//检查是否有同名的BeanDefinition已经在IOC容器中注册
@@ -1030,12 +1041,14 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 	 * @see #removeBeanDefinition
 	 */
 	protected void resetBeanDefinition(String beanName) {
-		// Remove the merged bean definition for the given bean, if already created.
+        //删除给定beanName的mergedBeanDefinitions的缓存，这是已合并的bean定义缓存
 		clearMergedBeanDefinition(beanName);
 
 		// Remove corresponding bean from singleton cache, if any. Shouldn't usually
 		// be necessary, rather just meant for overriding a context's default beans
 		// (e.g. the default StaticMessageSource in a StaticApplicationContext).
+        //从单例缓存中删除相应的单例（如果有），这个方法之前讲过了
+        //实际上就是删除DefaultSingletonBeanRegistry中的关于单例bean实现的缓存
 		destroySingleton(beanName);
 
 		// Notify all post-processors that the specified bean definition has been reset.

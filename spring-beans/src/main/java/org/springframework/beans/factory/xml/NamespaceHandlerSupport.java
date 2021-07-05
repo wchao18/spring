@@ -80,7 +80,9 @@ public abstract class NamespaceHandlerSupport implements NamespaceHandler {
 	 */
 	@Nullable
 	private BeanDefinitionParser findParserForElement(Element element, ParserContext parserContext) {
+        //获取element的本地名称
 		String localName = parserContext.getDelegate().getLocalName(element);
+        //从parsers缓存中查找BeanDefinitionParser
 		BeanDefinitionParser parser = this.parsers.get(localName);
 		if (parser == null) {
 			parserContext.getReaderContext().fatal(

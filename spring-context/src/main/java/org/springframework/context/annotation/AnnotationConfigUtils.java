@@ -55,7 +55,6 @@ import org.springframework.util.ClassUtils;
  * @see ConfigurationClassPostProcessor
  * @see CommonAnnotationBeanPostProcessor
  * @see org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor
- * @see org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor
  */
 public abstract class AnnotationConfigUtils {
 
@@ -147,13 +146,17 @@ public abstract class AnnotationConfigUtils {
 	 */
 	public static Set<BeanDefinitionHolder> registerAnnotationConfigProcessors(
 			BeanDefinitionRegistry registry, @Nullable Object source) {
-
+        //获取beanFactory，就是registry自身
 		DefaultListableBeanFactory beanFactory = unwrapDefaultListableBeanFactory(registry);
 		if (beanFactory != null) {
+            //设置比较器，可以看到设置的是AnnotationAwareOrderComparator比较器，可以支持PriorityOrdered接口、Ordered接口、@Ordered注解、@Priority注解的排序，比较优先级为PriorityOrdered>Ordered>@Ordered>@Priority
+            //后面会学习的OrderComparator 比较器只支持PriorityOrdered、Ordered接口的排序，比较优先级为PriorityOrdered>Ordered
+            //如果最终没找到设置的排序值，那么返回Integer.MAX_VALUE，即最低优先级。
 			if (!(beanFactory.getDependencyComparator() instanceof AnnotationAwareOrderComparator)) {
 				beanFactory.setDependencyComparator(AnnotationAwareOrderComparator.INSTANCE);
 			}
-			if (!(beanFactory.getAutowireCandidateResolver() instanceof ContextAnnotationAutowireCandidateResolver)) {
+            //设置一个ContextAnnotationAutowireCandidateResolver，以决定是否应将 Bean 定义视为主动注入的候选项。
+            if (!(beanFactory.getAutowireCandidateResolver() instanceof ContextAnnotationAutowireCandidateResolver)) {
 				beanFactory.setAutowireCandidateResolver(new ContextAnnotationAutowireCandidateResolver());
 			}
 		}

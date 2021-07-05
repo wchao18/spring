@@ -96,7 +96,9 @@ public final class CandidateComponentsIndexLoader {
 		}
 
 		try {
+            //加载全部组件索引文件
 			Enumeration<URL> urls = classLoader.getResources(COMPONENTS_RESOURCE_LOCATION);
+            //如果没有加载到组件索引文件，直接返回null
 			if (!urls.hasMoreElements()) {
 				return null;
 			}
@@ -109,6 +111,7 @@ public final class CandidateComponentsIndexLoader {
 			if (logger.isDebugEnabled()) {
 				logger.debug("Loaded " + result.size() + "] index(es)");
 			}
+            //如果没有从组件索引文件中加载到属性，同样返回null，否则返回CandidateComponentsIndex实例
 			int totalCount = result.stream().mapToInt(Properties::size).sum();
 			return (totalCount > 0 ? new CandidateComponentsIndex(result) : null);
 		}

@@ -68,6 +68,8 @@ class ConditionEvaluator {
 	 * @return if the item should be skipped
 	 */
 	public boolean shouldSkip(AnnotatedTypeMetadata metadata) {
+        //调用另一个shouldSkip方法，phase传递null
+        //请记住这个方法，我们在后面的ConfigurationClassPostProcessor解析的部分有详细讲解
 		return shouldSkip(metadata, null);
 	}
 

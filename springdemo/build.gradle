@@ -14,5 +14,7 @@ repositories {
 dependencies {
     compile(project(":spring-context"))
     compile(project(":spring-aspects"))
+    compile(project(":spring-context-indexer"))
     testCompile group: 'junit', name: 'junit', version: '4.12'
+    implementation group: 'javax.inject', name: 'javax.inject', version: '1'
 }

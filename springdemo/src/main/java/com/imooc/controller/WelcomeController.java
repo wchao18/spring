@@ -10,7 +10,7 @@ import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Controller;
 
-@Controller
+//@Controller
 public class WelcomeController implements ApplicationContextAware, BeanNameAware {
 	private String myName;
 	private ApplicationContext myContainer;

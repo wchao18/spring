@@ -1,9 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
 	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
 	   xsi:schemaLocation="http://www.springframework.org/schema/beans
-       http://www.springframework.org/schema/beans/spring-beans.xsd">
-	<bean id="welcomeService" class="com.imooc.service.impl.WelcomeServiceImpl"/>
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context.xsd">
+	<bean id="welcomeService" name="w1 w2" class="com.imooc.service.impl.WelcomeServiceImpl"/>
+    <!--测试没有名称的class-->
+   <!-- <bean class="com.imooc.service.impl.WelcomeServiceImpl"/>-->
 	<!-- 1.使用类的无参构造函数创建 -->
 	<bean id="user1"  name = "user1" class="com.imooc.entity.User" scope="singleton" lazy-init="true" primary="true"/>
 	<alias name="user1" alias="userAlias1,userAlias2,userAlias3"/>
@@ -26,6 +31,19 @@
     <bean class="com.imooc.destory.Destroy.Destroy2" name="destroy2" destroy-method="destroy"/>
     <!--没有配置回调函数-->
     <bean class="com.imooc.destory.Destroy.Destroy3" name="destroy3"/>
+
+    <!-- 配置自动扫描的包 SpringMVC-->
+   <!-- <context:component-scan base-package="com.mybatis.ssm" use-default-filters="false">
+    <context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+    </context:component-scan>-->
+
+    <!-- 配置自动扫描的包 Spring-->
+    <!--和扫描META-INF下面的spring-componnets -->
+    <context:component-scan base-package="com.imooc.controller" />
+
+    <!-- <context:component-scan base-package="com.imooc.controller" use-default-filters="false">
+     <context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+     </context:component-scan>-->
 
 </beans>
 
