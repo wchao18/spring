@@ -325,8 +325,8 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 				String[] dependsOn = mbd.getDependsOn();
 				// 如果当前Bean设置了dependsOn的属性
 				//depends-on用来指定Bean初始化及销毁时的顺序
-				//<bean id=a Class="com.imooc.A" depends-on="b" />
-				// <bean id=b Class="com.imooc.B" />
+				//<bean id=a Class="com.it.A" depends-on="b" />
+				// <bean id=b Class="com.it.B" />
 				if (dependsOn != null) {
 					for (String dep : dependsOn) {
 						//校验该依赖是否已经注册给当前 bean,注意这里传入的key是当前的bean名称
@@ -1784,11 +1784,11 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 					// the bean... just in case some of its metadata changed in the meantime.
 					// 将原先合并之后的RootBeanDefinition的需要重新合并的状态设置为true
 					// 表示需要重新合并一遍，以防原数据的改动
-					/**    <bean id="parent" class="com.imooc.Parent">
+					/**    <bean id="parent" class="com.it.Parent">
 					 <property name="name" value="ouyangfeng"/>
 					 </bean>
 					 <!--下面的parent表示这个child的bean的父亲是id=parent的这个类-->
-					 <bean id="child" class="com.imooc.Child" parent="parent">
+					 <bean id="child" class="com.it.Child" parent="parent">
 					 <property name="age" value="18"/>
 					 </bean>*/
 					clearMergedBeanDefinition(beanName);

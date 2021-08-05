@@ -476,7 +476,7 @@ public abstract class AbstractHandlerMapping extends WebApplicationObjectSupport
 		 * 		<mvc:interceptor>
 		 * 			<mvc:mapping path="/shopadmin/**" />
 		 * 			<bean id="ShopInterceptor"
-		 * 				class="com.imooc.o2o.interceptor.shopadmin.ShopLoginInterceptor" />
+		 * 				class="com.it.o2o.interceptor.shopadmin.ShopLoginInterceptor" />
 		 * 		</mvc:interceptor>
 		 */
 		for (HandlerInterceptor interceptor : this.adaptedInterceptors) {

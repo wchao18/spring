@@ -571,9 +571,9 @@ public abstract class AbstractAutoProxyCreator extends ProxyProcessorSupport
 	 *   }
 	 * }
 	 *
-	 *		<bean id="tracingInterceptor" class="com.imooc.web.interceptor.TracingInterceptor"/>
+	 *		<bean id="tracingInterceptor" class="com.it.web.interceptor.TracingInterceptor"/>
 	 * 	<aop:config proxy-target-class="true">
-	 * 		<aop:pointcut id="controllerMethodPointcut" expression="execution(* com.imooc.web.controller..*(..)) />
+	 * 		<aop:pointcut id="controllerMethodPointcut" expression="execution(* com.it.web.controller..*(..)) />
 	 * 		<aop:advisor advice-ref="tracingInterceptor" pointcut-ref="controllerMethodPointcut" />
 	 *		</aop:config>
 	 * Determine the advisors for the given bean, including the specific interceptors
@@ -632,9 +632,9 @@ public abstract class AbstractAutoProxyCreator extends ProxyProcessorSupport
 		 * <bean id="roleService"
 		 *         class="org.springframework.aop.framework.ProxyFactoryBean">
 		 *         <property name="proxyInterfaces"
-		 *             value="com.imooc.service.RoleService" />
+		 *             value="com.it.service.RoleService" />
 		 *         <property name="target">
-		 *             <bean  class="com.imooc.service.impl.RoleServiceImpl" />
+		 *             <bean  class="com.it.service.impl.RoleServiceImpl" />
 		 *         </property>
 		 *         <property name="interceptorNames">
 		 *             <list>

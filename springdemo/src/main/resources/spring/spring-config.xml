@@ -1,49 +1,74 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:context="http://www.springframework.org/schema/context"
-	   xsi:schemaLocation="http://www.springframework.org/schema/beans
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
        http://www.springframework.org/schema/beans/spring-beans.xsd
        http://www.springframework.org/schema/context
        http://www.springframework.org/schema/context/spring-context.xsd">
-	<bean id="welcomeService" name="w1 w2" class="com.imooc.service.impl.WelcomeServiceImpl"/>
+
     <!--测试没有名称的class-->
-   <!-- <bean class="com.imooc.service.impl.WelcomeServiceImpl"/>-->
-	<!-- 1.使用类的无参构造函数创建 -->
-	<bean id="user1"  name = "user1" class="com.imooc.entity.User" scope="singleton" lazy-init="true" primary="true"/>
-	<alias name="user1" alias="userAlias1,userAlias2,userAlias3"/>
-	<!-- 2.使用静态工厂进行创建 -->
-	<!-- class的值不是写User对象的全路径，而是写静态工厂的全路径 -->
-	<!-- factory-method的值写要调用的方法 -->
-	<bean id="user2" class="com.imooc.entity.factory.StaticFactory" factory-method="getUser" scope="singleton"/>
-	<!-- 3.使用实例工厂进行创建 -->
-	<!-- 需要先创建factoryBean对象，再通过factoryBean对象进行调用 -->
-	<bean id="userFactory" class="com.imooc.entity.factory.UserFactory"/>
-	<bean id="user3" factory-bean="userFactory" factory-method="getUser" scope="prototype" />
+    <!-- <bean class="com.it.service.impl.WelcomeServiceImpl"/>-->
+    <!-- 1.使用类的无参构造函数创建 -->
+  <!--  <bean id="user1" name="user1" class="com.it.bean.User" scope="singleton" lazy-init="true" primary="true"/>
+    <alias name="user1" alias="userAlias1,userAlias2,userAlias3"/>
+    &lt;!&ndash; 2.使用静态工厂进行创建 &ndash;&gt;
+    &lt;!&ndash; class的值不是写User对象的全路径，而是写静态工厂的全路径 &ndash;&gt;
+    &lt;!&ndash; factory-method的值写要调用的方法 &ndash;&gt;
+    <bean id="user2" class="com.it.bean.factory.StaticFactory" factory-method="getUser" scope="singleton"/>
+    &lt;!&ndash; 3.使用实例工厂进行创建 &ndash;&gt;
+    &lt;!&ndash; 需要先创建factoryBean对象，再通过factoryBean对象进行调用 &ndash;&gt;
+    <bean id="userFactory" class="com.it.bean.factory.UserFactory"/>
+    <bean id="user3" factory-bean="userFactory" factory-method="getUser" scope="prototype"/>
 
-
-	<bean id="userFactoryBean" class="com.imooc.entity.factory.UserFactoryBean"/>
+    &lt;!&ndash;FactoryBean&ndash;&gt;
+    <bean id="userFactoryBean" class="com.it.bean.UserFactoryBean"/>-->
 
 
     <!--实现了DisposableBean接口,依赖destroy2-->
-    <bean class="com.imooc.destory.Destroy.Destroy1" name="destroy1" depends-on="destroy2"/>
-    <!--配置了destroy属性-->
-    <bean class="com.imooc.destory.Destroy.Destroy2" name="destroy2" destroy-method="destroy"/>
-    <!--没有配置回调函数-->
-    <bean class="com.imooc.destory.Destroy.Destroy3" name="destroy3"/>
+ <!--   <bean class="com.it.destory.Destroy.Destroy1" name="destroy1" depends-on="destroy2"/>
+    &lt;!&ndash;配置了destroy属性&ndash;&gt;
+    <bean class="com.it.destory.Destroy.Destroy2" name="destroy2" destroy-method="destroy"/>
+    &lt;!&ndash;没有配置回调函数&ndash;&gt;
+    <bean class="com.it.destory.Destroy.Destroy3" name="destroy3"/>-->
 
     <!-- 配置自动扫描的包 SpringMVC-->
-   <!-- <context:component-scan base-package="com.mybatis.ssm" use-default-filters="false">
-    <context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
-    </context:component-scan>-->
-
-    <!-- 配置自动扫描的包 Spring-->
-    <!--和扫描META-INF下面的spring-componnets -->
-    <context:component-scan base-package="com.imooc.controller" />
-
-    <!-- <context:component-scan base-package="com.imooc.controller" use-default-filters="false">
+    <!-- <context:component-scan base-package="com.mybatis.ssm" use-default-filters="false">
      <context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
      </context:component-scan>-->
 
+    <!-- 配置自动扫描的包 Spring-->
+    <!--和扫描META-INF下面的spring-componnets -->
+  <!--  <context:component-scan base-package="com.it"/>-->
+
+    <!--beanPostProcessor测试-->
+   <!-- <bean class="com.it.postprocessor.MyBeanPostProcessor.MyBeanPostProcessor1" id="beanPostProcessor1"></bean>
+
+    <bean class="com.it.postprocessor.MyBeanPostProcessor.MyBeanPostProcessor2" id="beanPostProcessor2"></bean>
+
+    <bean class="com.it.postprocessor.BeanPostProcessorTest" id="beanPostProcessorTest" init-method="init">
+        <property name="string" value="value"/>
+    </bean>-->
+
+
+    <!--获取容器测试-->
+    <bean class="com.it.aware.AContext">
+        <property name="name" value="张三"></property>
+    </bean>
+    <bean class="com.it.aware.AContextAware"/>
+
+
+    <!--Ingnore测试-->
+   <!-- <bean class="org.springframework.testIgnore.PoJoA"/>
+    <bean class="org.springframework.testIgnore.PoJoB"/>
+
+
+    <bean class="org.springframework.testIgnore.IgnoreOther"
+          id="IgnoreOtherByType" autowire="byType"/>
+    <bean class="org.springframework.testIgnore.IgnoreOther" id="IgnoreOtherByName" autowire="byName"/>
+    <bean class="org.springframework.testIgnore.IgnoreOther" id="IgnoreOtherByConstructor" autowire="constructor"/>
+-->
+   <!-- <bean class="com.it.postprocessor.MyBeanFactoryPostProcessor" id="myBeanFactoryPostProcessor"></bean>
+-->
 </beans>
 

@@ -169,9 +169,9 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 	private final Map<Class<?>, String[]> allBeanNamesByType = new ConcurrentHashMap<>(64);
 
 	/** Map of singleton-only bean names, keyed by dependency type. */
-	private final Map<Class<?>, String[]> singletonBeanNamesByType = new ConcurrentHashMap<>(64);
+ 	private final Map<Class<?>, String[]> singletonBeanNamesByType = new ConcurrentHashMap<>(64);
 
-	/** List of bean definition names, in registration order. */
+ 	//beanDefinition的名字
 	private volatile List<String> beanDefinitionNames = new ArrayList<>(256);
 
 	/** List of names of manually registered singletons, in registration order. */

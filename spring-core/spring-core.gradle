@@ -41,22 +41,22 @@ task cglibRepackJar(type: Jar) { repackJar ->
 }
 
 task objenesisRepackJar(type: Jar) { repackJar ->
-	repackJar.baseName = "spring-objenesis-repack"
-	repackJar.version = objenesisVersion
+    repackJar.baseName = "spring-objenesis-repack"
+    repackJar.version = objenesisVersion
 
-	doLast() {
-		project.ant {
-			taskdef name: "jarjar", classname: "org.pantsbuild.jarjar.JarJarTask",
-					classpath: configurations.jarjar.asPath
-			jarjar(destfile: repackJar.archivePath) {
-				configurations.objenesis.each { originalJar ->
-					zipfileset(src: originalJar)
-				}
-				// Repackage org.objenesis => org.springframework.objenesis
-				rule(pattern: "org.objenesis.**", result: "org.springframework.objenesis.@1")
-			}
-		}
-	}
+    doLast() {
+        project.ant {
+            taskdef name: "jarjar", classname: "org.pantsbuild.jarjar.JarJarTask",
+                    classpath: configurations.jarjar.asPath
+            jarjar(destfile: repackJar.archivePath) {
+                configurations.objenesis.each { originalJar ->
+                    zipfileset(src: originalJar)
+                }
+                // Repackage org.objenesis => org.springframework.objenesis
+                rule(pattern: "org.objenesis.**", result: "org.springframework.objenesis.@1")
+            }
+        }
+    }
 }
 
 dependencies {

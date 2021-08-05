@@ -1491,13 +1491,13 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 			MutablePropertyValues newPvs = new MutablePropertyValues(pvs);
 			// Add property values based on autowire by name if applicable.
 			// 根据beanName进行autowiring自动装配处理
-			// 	<bean id="boyFriend" class="com.imooc.dao.impl.BoyFriend"  autowire="byName"></bean>
+			// 	<bean id="boyFriend" class="com.it.dao.impl.BoyFriend"  autowire="byName"></bean>
 			if (resolvedAutowireMode == AUTOWIRE_BY_NAME) {
 				autowireByName(beanName, mbd, bw, newPvs);
 			}
 			// Add property values based on autowire by type if applicable.
 			//根据Bean的类型进行autowiring自动装配处理
-			//	<bean id="boyFriend" class="com.imooc.dao.impl.BoyFriend"  autowire="byType"></bean>
+			//	<bean id="boyFriend" class="com.it.dao.impl.BoyFriend"  autowire="byType"></bean>
 			if (resolvedAutowireMode == AUTOWIRE_BY_TYPE) {
 				autowireByType(beanName, mbd, bw, newPvs);
 			}
@@ -2017,7 +2017,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 			//如果设置了initMethod方法的话也会执行用户配置的初始话方法
 			//并且这个类不是 InitializingBean类型和不是afterPropertiesSet方法 ；
 			//才能执行用户配置的方法
-			//样例<bean id="person" class="com.imooc.Person"  init-method="init" destroy-method="destory"/>
+			//样例<bean id="person" class="com.it.Person"  init-method="init" destroy-method="destory"/>
 			if (StringUtils.hasLength(initMethodName) &&
 					!(isInitializingBean && "afterPropertiesSet".equals(initMethodName)) &&
 					!mbd.isExternallyManagedInitMethod(initMethodName)) {

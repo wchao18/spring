@@ -94,6 +94,7 @@ public class DefaultBeanDefinitionDocumentReader implements BeanDefinitionDocume
     @Override
     public void registerBeanDefinitions(Document doc, XmlReaderContext readerContext) {
         this.readerContext = readerContext;
+        //获取document中的element元素
         doRegisterBeanDefinitions(doc.getDocumentElement());
     }
 
@@ -346,7 +347,7 @@ public class DefaultBeanDefinitionDocumentReader implements BeanDefinitionDocume
     protected void processBeanDefinition(Element ele, BeanDefinitionParserDelegate delegate) {
         // BeanDefinitionHolder是对BeanDefinition的封装，即Bean定义的封装类
         //对Document对象中<Bean>元素的解析由BeanDefinitionParserDelegate实现
-        //PS:重点
+        //PS:重点重点重点
         BeanDefinitionHolder bdHolder = delegate.parseBeanDefinitionElement(ele);
         if (bdHolder != null) {
             /*
