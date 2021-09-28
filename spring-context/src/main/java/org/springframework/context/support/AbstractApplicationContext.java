@@ -553,10 +553,12 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 
                 // 激活在容器中注册为bean的BeanFactoryPostProcessors
                 //对于注解容器，org.springframework.context.annotation.ConfigurationClassPostProcessor#postProcessBeanDefinitionRegistry
+
                 //方法扫描应用中所有BeanDefinition并注册到容器之中
                 invokeBeanFactoryPostProcessors(beanFactory);
 
                 // 注册拦截bean创建过程的BeanPostProcessor
+                //注意：beanFactory里面的后置处理器 已经是创建好的对象
                 registerBeanPostProcessors(beanFactory);
 
                 // 找到“messageSource”的Bean提供给ApplicationContext使用，
@@ -921,7 +923,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
         // 先初始化LoadTimeWeaverAware bean，以便尽早注册它们的transformers
         String[] weaverAwareNames = beanFactory.getBeanNamesForType(LoadTimeWeaverAware.class, false, false);
         for (String weaverAwareName : weaverAwareNames) {
-            getBean(weaverAwareName);
+            getBean(weaverAwareName);//有则拿，没有则创建bean
         }
 
         // 停止使用临时类加载器进行类型匹配.

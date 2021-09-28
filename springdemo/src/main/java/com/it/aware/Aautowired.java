@@ -4,20 +4,24 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 
 /**
- * 注意xml文件中配置了bean
+ * @author wangchao
+ * @description TODO
+ * @date 2021/08/05 18:28
  */
-public class AContext {
-
-    private String name;
+public class Aautowired {
 
     private ApplicationContext applicationContext;
+
+    private String name;
 
     public ApplicationContext getApplicationContext() {
         return applicationContext;
     }
 
+    //要加context:component-scan 扫描自动装配
+    @Autowired
     public void setApplicationContext(ApplicationContext applicationContext) {
-        System.out.println("调用set方法设置applicationContext");
+        System.out.println("autowired设置自动装配");
         this.applicationContext = applicationContext;
     }
 

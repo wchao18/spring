@@ -10,19 +10,18 @@ import org.springframework.testIgnore.PoJoA;
 
 import java.util.Arrays;
 
-/*@Configuration
-@EnableAspectJAutoProxy
-@Import(OutSide.class)*/
-@ComponentScan("com.it")
-public class Entrance {
+public class XmlEntrance {
 
     public static void main(String[] args) {
 
        /* ClassPathXmlApplicationContext classPathXmlApplicationContext = new ClassPathXmlApplicationContext("spring" +
                 "/spring-config.xml");*/
         System.setProperty("x", "config");
-        ClassPathXmlApplicationContext classPathXmlApplicationContext =
+    /*    ClassPathXmlApplicationContext classPathXmlApplicationContext =
                 new ClassPathXmlApplicationContext("spring" + "/spring-${x}.xml");
+*/
+
+        new ClassPathXmlApplicationContext("spring/spring-processor.xml");
 
         //测试刷新
        /* try {
@@ -32,16 +31,6 @@ public class Entrance {
         }
         classPathXmlApplicationContext.refresh();*/
 
-
-      /*  Arrays.stream(classPathXmlApplicationContext.getBeanDefinitionNames()).forEach(
-                s -> System.out.println(s.toString())
-        );*/
-		/*ApplicationContext applicationContext = new AnnotationConfigApplicationContext(Entrance.class);
-		HiService hiService = (HiService)applicationContext.getBean("hiServiceImpl");
-		hiService.sayHi();
-		System.out.println("---------------------------分割线以下执行HelloService-------------------------------");
-		HelloService helloService = (HelloService)applicationContext.getBean("helloServiceImpl");
-		helloService.sayHello();*/
 
         /*Ignore测试*/
       /*  IgnoreOther ignoreOtherByType = (IgnoreOther) classPathXmlApplicationContext.getBean("IgnoreOtherByType");
@@ -60,10 +49,10 @@ public class Entrance {
                 new AnnotationConfigApplicationContext(Entrance.class);*/
 
         //测试获取bean中的容器对象
-        AContext aContext = classPathXmlApplicationContext.getBean(AContext.class);
+       /* AContext aContext = classPathXmlApplicationContext.getBean(AContext.class);
 
         AContextAware aContextAware = classPathXmlApplicationContext.getBean(AContextAware.class);
         System.out.println("容器：" + aContext.getApplicationContext());
-        System.out.println("容器：" + aContextAware.getApplicationContext());
+        System.out.println("容器：" + aContextAware.getApplicationContext());*/
     }
 }

@@ -112,7 +112,7 @@ final class PostProcessorRegistrationDelegate {
                     processedBeans.add(ppName);
                 }
             }
-            //根据优先级排序
+            //根据优先级排序,数字越小 优先级越高
             sortPostProcessors(currentRegistryProcessors, beanFactory);
             registryProcessors.addAll(currentRegistryProcessors);
             //按顺序执行BeanDefinitionRegistryPostProcessors
@@ -132,7 +132,10 @@ final class PostProcessorRegistrationDelegate {
             sortPostProcessors(currentRegistryProcessors, beanFactory);
             //将排完序的BeanDefinitionRegistry
             registryProcessors.addAll(currentRegistryProcessors);
+
+            //执行BeanDefinitionRegistryPostProcessor
             invokeBeanDefinitionRegistryPostProcessors(currentRegistryProcessors, registry);
+
             currentRegistryProcessors.clear();
 
             // Finally, invoke all other BeanDefinitionRegistryPostProcessors until no further ones appear.
@@ -148,6 +151,7 @@ final class PostProcessorRegistrationDelegate {
                         reiterate = true;
                     }
                 }
+                //类名大小写排序
                 sortPostProcessors(currentRegistryProcessors, beanFactory);
                 registryProcessors.addAll(currentRegistryProcessors);
                 invokeBeanDefinitionRegistryPostProcessors(currentRegistryProcessors, registry);
@@ -166,6 +170,7 @@ final class PostProcessorRegistrationDelegate {
             invokeBeanFactoryPostProcessors(beanFactoryPostProcessors, beanFactory);
         }
         // 上面逻辑执行了以参数形式传入的BeanDefinitionRegistryPostProcessor以及常规的BeanFactoryPostProcessor
+        //*******************************************************************************************************
         // 也执行了容器里面的BeanDefinitionRegistryPostProcessor，故还剩下容器里面的BeanFactoryPostProcessor需要去处理
         // 逻辑是一样的，也分为实现了PriorityOrdered和Ordered以及两个都没实现的
         // Do not initialize FactoryBeans here: We need to leave all regular beans
@@ -190,11 +195,11 @@ final class PostProcessorRegistrationDelegate {
             }
         }
 
-        // First, invoke the BeanFactoryPostProcessors that implement PriorityOrdered.
+        //1、First, invoke the BeanFactoryPostProcessors that implement PriorityOrdered.
         sortPostProcessors(priorityOrderedPostProcessors, beanFactory);
         invokeBeanFactoryPostProcessors(priorityOrderedPostProcessors, beanFactory);
 
-        // Next, invoke the BeanFactoryPostProcessors that implement Ordered.
+        //2、Next, invoke the BeanFactoryPostProcessors that implement Ordered.
         List<BeanFactoryPostProcessor> orderedPostProcessors = new ArrayList<>(orderedPostProcessorNames.size());
         for (String postProcessorName : orderedPostProcessorNames) {
             orderedPostProcessors.add(beanFactory.getBean(postProcessorName, BeanFactoryPostProcessor.class));
@@ -202,7 +207,7 @@ final class PostProcessorRegistrationDelegate {
         sortPostProcessors(orderedPostProcessors, beanFactory);
         invokeBeanFactoryPostProcessors(orderedPostProcessors, beanFactory);
 
-        // Finally, invoke all other BeanFactoryPostProcessors.
+        //3、Finally, invoke all other BeanFactoryPostProcessors.
         List<BeanFactoryPostProcessor> nonOrderedPostProcessors = new ArrayList<>(nonOrderedPostProcessorNames.size());
         for (String postProcessorName : nonOrderedPostProcessorNames) {
             nonOrderedPostProcessors.add(beanFactory.getBean(postProcessorName, BeanFactoryPostProcessor.class));

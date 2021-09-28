@@ -37,26 +37,19 @@
      <context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
      </context:component-scan>-->
 
-    <!-- 配置自动扫描的包 Spring-->
-    <!--和扫描META-INF下面的spring-componnets -->
-  <!--  <context:component-scan base-package="com.it"/>-->
-
-    <!--beanPostProcessor测试-->
-   <!-- <bean class="com.it.postprocessor.MyBeanPostProcessor.MyBeanPostProcessor1" id="beanPostProcessor1"></bean>
-
-    <bean class="com.it.postprocessor.MyBeanPostProcessor.MyBeanPostProcessor2" id="beanPostProcessor2"></bean>
-
-    <bean class="com.it.postprocessor.BeanPostProcessorTest" id="beanPostProcessorTest" init-method="init">
-        <property name="string" value="value"/>
-    </bean>-->
-
-
-    <!--获取容器测试-->
-    <bean class="com.it.aware.AContext">
+    <!--获取容器、自动装配测试-->
+    <!--autowire 自动装配 默认no-->
+    <bean class="com.it.aware.AContext" autowire="byType">
+        <!--调用set方法-->
         <property name="name" value="张三"></property>
     </bean>
     <bean class="com.it.aware.AContextAware"/>
 
+    <bean class="com.it.aware.Aautowired" id="aautowired">
+        <property name="name" value="啦啦啦"></property>
+    </bean>
+    <!--xml和 注解形式自动装配-->
+    <context:component-scan base-package="com.it.aware"/>
 
     <!--Ingnore测试-->
    <!-- <bean class="org.springframework.testIgnore.PoJoA"/>
@@ -68,7 +61,6 @@
     <bean class="org.springframework.testIgnore.IgnoreOther" id="IgnoreOtherByName" autowire="byName"/>
     <bean class="org.springframework.testIgnore.IgnoreOther" id="IgnoreOtherByConstructor" autowire="constructor"/>
 -->
-   <!-- <bean class="com.it.postprocessor.MyBeanFactoryPostProcessor" id="myBeanFactoryPostProcessor"></bean>
--->
+
 </beans>
 

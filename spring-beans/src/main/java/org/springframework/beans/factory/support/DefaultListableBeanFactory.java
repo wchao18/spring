@@ -520,6 +520,7 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 						boolean isFactoryBean = isFactoryBean(beanName, mbd);
 						BeanDefinitionHolder dbd = mbd.getDecoratedDefinition();
 						boolean matchFound = false;
+						//过滤已经创建bean的对象
 						boolean allowFactoryBeanInit = allowEagerInit || containsSingleton(beanName);
 						boolean isNonLazyDecorated = dbd != null && !mbd.isLazyInit();
 						if (!isFactoryBean) {
@@ -876,6 +877,7 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 					}
 				}
 				else {
+				    //创建Bean入口
 					getBean(beanName);
 				}
 			}
