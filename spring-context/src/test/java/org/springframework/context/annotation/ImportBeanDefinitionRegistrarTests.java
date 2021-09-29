@@ -28,6 +28,7 @@ import org.springframework.beans.factory.BeanClassLoaderAware;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.BeanFactoryAware;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
+import org.springframework.beans.factory.support.RootBeanDefinition;
 import org.springframework.context.EnvironmentAware;
 import org.springframework.context.MessageSource;
 import org.springframework.context.ResourceLoaderAware;
@@ -102,6 +103,9 @@ public class ImportBeanDefinitionRegistrarTests {
 		@Override
 		public void registerBeanDefinitions(AnnotationMetadata importingClassMetadata,
 				BeanDefinitionRegistry registry) {
+           /* RootBeanDefinition rootBeanDefinition = new RootBeanDefinition();
+            rootBeanDefinition.setBeanClass(null);
+		    registry.registerBeanDefinition("testClass",null);*/
 		}
 	}
 
