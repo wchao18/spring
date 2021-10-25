@@ -256,7 +256,7 @@ public class AutowiredAnnotationBeanPostProcessor extends InstantiationAwareBean
 	public Constructor<?>[] determineCandidateConstructors(Class<?> beanClass, final String beanName)
 			throws BeanCreationException {
 
-		// Let's check for lookup methods here...
+		// Let's check for lookup methods hepostProcessAfterInstantiationre...
 		if (!this.lookupMethodsChecked.contains(beanName)) {
 			if (AnnotationUtils.isCandidateClass(beanClass, Lookup.class)) {
 				try {
@@ -441,7 +441,7 @@ public class AutowiredAnnotationBeanPostProcessor extends InstantiationAwareBean
 		// Fall back to class name as cache key, for backwards compatibility with custom callers.
 		String cacheKey = (StringUtils.hasLength(beanName) ? beanName : clazz.getName());
 		// Quick check on the concurrent map first, with minimal locking.
-		//从容器中查找是否有给定类的autowire相关注解元信息
+		//从容器中查找是否有给定类的autowire相关注解元信息，双重检查单例模式
 		InjectionMetadata metadata = this.injectionMetadataCache.get(cacheKey);
 		if (InjectionMetadata.needsRefresh(metadata, clazz)) {
 			synchronized (this.injectionMetadataCache) {
@@ -449,7 +449,7 @@ public class AutowiredAnnotationBeanPostProcessor extends InstantiationAwareBean
 				if (InjectionMetadata.needsRefresh(metadata, clazz)) {
 					if (metadata != null) {
 						metadata.clear(pvs);
-					}
+					}//构建Autowired元数据
 					metadata = buildAutowiringMetadata(clazz);
 					//将得到的给定类autowire相关注解元信息存储在容器缓存中
 					this.injectionMetadataCache.put(cacheKey, metadata);
@@ -514,7 +514,7 @@ public class AutowiredAnnotationBeanPostProcessor extends InstantiationAwareBean
 			});
 
 			elements.addAll(0, currElements);
-			targetClass = targetClass.getSuperclass();
+			targetClass = targetClass.getSuperclass();//循环获取父类的注解信息
 		}
 		while (targetClass != null && targetClass != Object.class);
 

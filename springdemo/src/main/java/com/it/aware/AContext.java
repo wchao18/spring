@@ -10,6 +10,7 @@ public class AContext {
 
     private String name;
 
+    /*autowire="byType*/
     private ApplicationContext applicationContext;
 
     public ApplicationContext getApplicationContext() {

@@ -510,7 +510,8 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 		}
 
 		try {
-			// Give BeanPostProcessors a chance to return a proxy instead of the target bean instance.
+		    //PS:重要方法:
+			//Give BeanPostProcessors a chance to return a proxy instead of the target bean instance.
 			//如果Bean配置了初始化前和初始化后的处理器，则试图返回一个需要创建Bean的代理对象
 			//resolveBeforeInstantiation只是针对有自定义的targetsource，
 			// 因为自定义的targetsource不是spring的bean那么肯定不需要进行后续的一系列的实例化,初始化。
@@ -590,7 +591,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 			if (!mbd.postProcessed) {
 				try {
 				    //后置处理器：MergedBeanDefinitionPostProcessor
-					//处理BeanDefinition的定义信息
+					//PS重点：处理BeanDefinition的定义信息
 					applyMergedBeanDefinitionPostProcessors(mbd, beanType, beanName);
 				}
 				catch (Throwable ex) {
@@ -625,7 +626,8 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 		//这个exposedObject在初始化完成之后返回作为依赖注入完成后的Bean
 		Object exposedObject = bean;
 		try {
-			//**填充bean实例的属性,实例属性值还是为空的
+			//**设置bean实例的属性,实例属性值还是为空的
+            //自动装配(比如autowired)也是这里
 			populateBean(beanName, mbd, instanceWrapper);
 
 			//初始化bean，过程如下：
@@ -1518,7 +1520,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 				if (bp instanceof InstantiationAwareBeanPostProcessor) {
 				    //非常重要实现类：AutowiredAnnotationBeanPostProcessor
 					InstantiationAwareBeanPostProcessor ibp = (InstantiationAwareBeanPostProcessor) bp;
-					//重点：在这里会对@Autowired、@Value、@Inject标记的属性进行依赖注入
+					//PS:********重点：在这里会对@Autowired、@Value、@Inject标记的属性进行依赖注入
 					PropertyValues pvsToUse = ibp.postProcessProperties(pvs, bw.getWrappedInstance(), beanName);
 					if (pvsToUse == null) {
 						if (filteredPds == null) {
@@ -1548,7 +1550,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 			//显式配置了autowiredbyName或者ByType的属性注入，
 			//针对注解来讲，由于在AutowiredAnnotationBeanPostProcessor已经完成了注入，
 			//xml文件形式的赋值
-            //注意：普通属性是还是反射设置的
+            //PS:注意：普通属性是还是反射设置的
 			applyPropertyValues(beanName, mbd, bw, pvs);
 		}
 	}
@@ -1785,7 +1787,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 	 * @param bw the BeanWrapper wrapping the target object
 	 * @param pvs the new property values
 	 */
-	protected void applyPropertyValues(String beanName, BeanDefinition mbd, BeanWrapper bw, PropertyValues pvs) {
+	protected void  applyPropertyValues(String beanName, BeanDefinition mbd, BeanWrapper bw, PropertyValues pvs) {
 		if (pvs.isEmpty()) {
 			return;
 		}

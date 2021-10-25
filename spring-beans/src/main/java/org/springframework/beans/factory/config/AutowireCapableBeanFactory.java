@@ -269,7 +269,7 @@ public interface AutowireCapableBeanFactory extends BeanFactory {
 	/**
 	 * Initialize the given raw bean, applying factory callbacks
 	 * such as {@code setBeanName} and {@code setBeanFactory},
-	 * also applying all bean post processors (including ones which
+	 * also applying all bean post p  rocessors (including ones which
 	 * might wrap the given raw bean).
 	 * <p>Note that no bean definition of the given name has to exist
 	 * in the bean factory. The passed-in bean name will simply be used

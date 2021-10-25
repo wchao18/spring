@@ -252,6 +252,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
     /**
      * Create a new AbstractApplicationContext with no parent.
      * 创建一个没有父元素的新的AbstractApplicationContext,获取一个资源模式解析器
+     * 解析加载的资源文件
      */
     public AbstractApplicationContext() {
         this.resourcePatternResolver = getResourcePatternResolver();
@@ -551,14 +552,13 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
                 //允许容器的子类去注册postProcessor  ，钩子方法
                 postProcessBeanFactory(beanFactory);
 
-                // 激活在容器中注册为bean的BeanFactoryPostProcessors
+                //执行在容器中注册为bean的BeanFactoryPostProcessors，此时创建BeanFactoryPostProcessors的bean对象
                 //对于注解容器，org.springframework.context.annotation.ConfigurationClassPostProcessor#postProcessBeanDefinitionRegistry
-
                 //方法扫描应用中所有BeanDefinition并注册到容器之中
                 invokeBeanFactoryPostProcessors(beanFactory);
 
                 // 注册拦截bean创建过程的BeanPostProcessor
-                //注意：beanFactory里面的后置处理器 已经是创建好的对象
+                //注意：beanFactory里面的后置处理器,此时创建BeanPostProcessors的Bean对象
                 registerBeanPostProcessors(beanFactory);
 
                 // 找到“messageSource”的Bean提供给ApplicationContext使用，
@@ -575,6 +575,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
                 onRefresh();
 
                 // 注册监听器（检查监听器的bean并注册它们）
+                //PS:重要:执行了SmartInstantiationAwareBeanPostProcessor预测类型方法
                 registerListeners();
 
                 //设置自定义的类型转化器ConversionService，

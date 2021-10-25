@@ -7,10 +7,8 @@
        http://www.springframework.org/schema/context
        http://www.springframework.org/schema/context/spring-context.xsd">
 
-    <!--测试没有名称的class-->
-    <!-- <bean class="com.it.service.impl.WelcomeServiceImpl"/>-->
-    <!-- 1.使用类的无参构造函数创建 -->
-  <!--  <bean id="user1" name="user1" class="com.it.bean.User" scope="singleton" lazy-init="true" primary="true"/>
+    <!--&lt;!&ndash; 1.使用类的无参构造函数创建 &ndash;&gt;
+    <bean id="user1" name="user1" class="com.it.bean.User" scope="singleton" lazy-init="true" primary="true"/>
     <alias name="user1" alias="userAlias1,userAlias2,userAlias3"/>
     &lt;!&ndash; 2.使用静态工厂进行创建 &ndash;&gt;
     &lt;!&ndash; class的值不是写User对象的全路径，而是写静态工厂的全路径 &ndash;&gt;
@@ -19,10 +17,10 @@
     &lt;!&ndash; 3.使用实例工厂进行创建 &ndash;&gt;
     &lt;!&ndash; 需要先创建factoryBean对象，再通过factoryBean对象进行调用 &ndash;&gt;
     <bean id="userFactory" class="com.it.bean.factory.UserFactory"/>
-    <bean id="user3" factory-bean="userFactory" factory-method="getUser" scope="prototype"/>
+    <bean id="user3" factory-bean="userFactory" factory-method="getUser" scope="prototype"/>-->
 
-    &lt;!&ndash;FactoryBean&ndash;&gt;
-    <bean id="userFactoryBean" class="com.it.bean.UserFactoryBean"/>-->
+    <!--FactoryBean 工厂bean-->
+    <bean id="userFactoryBean" class="com.it.bean.UserFactoryBean"/>
 
 
     <!--实现了DisposableBean接口,依赖destroy2-->

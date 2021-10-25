@@ -4,12 +4,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 
 /**
- * @author wangchao
- * @description TODO
- * @date 2021/08/05 18:28
+ * 配置文件：spring-config.xml
  */
 public class Aautowired {
 
+    //@Autowired
     private ApplicationContext applicationContext;
 
     private String name;
