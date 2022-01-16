@@ -2,6 +2,7 @@ package com.it;
 
 import com.it.aware.AContext;
 import com.it.aware.AContextAware;
+import com.it.bean.User;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -21,7 +22,8 @@ public class XmlEntrance {
                 new ClassPathXmlApplicationContext("spring" + "/spring-${x}.xml");
 */
 
-        new ClassPathXmlApplicationContext("spring/spring-processor.xml");
+        ClassPathXmlApplicationContext classPathXmlApplicationContext = new ClassPathXmlApplicationContext("spring/spring-config.xml");
+        //new ClassPathXmlApplicationContext("spring/spring-processor.xml");
 
         //测试刷新
        /* try {
@@ -54,5 +56,8 @@ public class XmlEntrance {
         AContextAware aContextAware = classPathXmlApplicationContext.getBean(AContextAware.class);
         System.out.println("容器：" + aContext.getApplicationContext());
         System.out.println("容器：" + aContextAware.getApplicationContext());*/
+
+        //测试工厂bean
+        User bean = classPathXmlApplicationContext.getBean(User.class);
     }
 }

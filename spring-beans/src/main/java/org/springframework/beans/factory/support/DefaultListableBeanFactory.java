@@ -497,12 +497,14 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 			return resolvedBeanNames;
 		}
 		resolvedBeanNames = doGetBeanNamesForType(ResolvableType.forRawClass(type), includeNonSingletons, true);
+		//判断类型和classLoad相同
 		if (ClassUtils.isCacheSafe(type, getBeanClassLoader())) {
 			cache.put(type, resolvedBeanNames);
 		}
 		return resolvedBeanNames;
 	}
 
+	//重点方法，执行未实例bean的预测类型方法
 	private String[] doGetBeanNamesForType(ResolvableType type, boolean includeNonSingletons, boolean allowEagerInit) {
 		List<String> result = new ArrayList<>();
 

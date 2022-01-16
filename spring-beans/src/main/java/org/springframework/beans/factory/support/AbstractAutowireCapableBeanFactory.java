@@ -511,7 +511,6 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 
 		try {
 		    //PS:重要方法:
-			//Give BeanPostProcessors a chance to return a proxy instead of the target bean instance.
 			//如果Bean配置了初始化前和初始化后的处理器，则试图返回一个需要创建Bean的代理对象
 			//resolveBeforeInstantiation只是针对有自定义的targetsource，
 			// 因为自定义的targetsource不是spring的bean那么肯定不需要进行后续的一系列的实例化,初始化。
@@ -1240,7 +1239,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 			throw new BeanCreationException(mbd.getResourceDescription(), beanName,
 					"Bean class isn't public, and non-public access not allowed: " + beanClass.getName());
 		}
-		//使用工厂方法创建实例
+		//使用工厂方法创建实例,创建beanDefinition时候设置的！
 		Supplier<?> instanceSupplier = mbd.getInstanceSupplier();
 		if (instanceSupplier != null) {
 			return obtainFromSupplier(instanceSupplier, beanName);
@@ -1276,7 +1275,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 		}
 
 		// Candidate constructors for autowiring?
-		//重点：使用带参的构造函数进行装配
+		//重点：使用带参的构造函数进行装配,SmartInstantiationAwareBeanPostProcessor 构造器构建
 		Constructor<?>[] ctors = determineConstructorsFromBeanPostProcessors(beanClass, beanName);
 		if (ctors != null || mbd.getResolvedAutowireMode() == AUTOWIRE_CONSTRUCTOR ||
 				mbd.hasConstructorArgumentValues() || !ObjectUtils.isEmpty(args)) {
@@ -1284,13 +1283,14 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 		}
 
 		// Preferred constructors for default construction?
+        //默认空
 		ctors = mbd.getPreferredConstructors();
 		if (ctors != null) {
 			return autowireConstructor(beanName, mbd, ctors, null);
 		}
 
 		// No special handling: simply use no-arg constructor.
-		// 使用默认的构造函数
+		// 使用默认的无参构造函数
 		return instantiateBean(beanName, mbd);
 	}
 
@@ -1514,7 +1514,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 		PropertyDescriptor[] filteredPds = null;
 		if (hasInstAwareBpps) {
 			if (pvs == null) {
-				pvs = mbd.getPropertyValues();//xml中标签指定
+				pvs = mbd.getPropertyValues();//xml中标签指定，注解版是没有的
 			}
 			for (BeanPostProcessor bp : getBeanPostProcessors()) {
 				if (bp instanceof InstantiationAwareBeanPostProcessor) {
@@ -1787,7 +1787,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 	 * @param bw the BeanWrapper wrapping the target object
 	 * @param pvs the new property values
 	 */
-	protected void  applyPropertyValues(String beanName, BeanDefinition mbd, BeanWrapper bw, PropertyValues pvs) {
+	protected void applyPropertyValues(String beanName, BeanDefinition mbd, BeanWrapper bw, PropertyValues pvs) {
 		if (pvs.isEmpty()) {
 			return;
 		}

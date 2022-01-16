@@ -662,6 +662,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 
 		// If we couldn't use the target type, try regular prediction.
 		if (predictedType == null) {
+		    //类型预测（类型自定义）
 			predictedType = predictBeanType(beanName, mbd, typesToMatch);
 			if (predictedType == null) {
 				return false;

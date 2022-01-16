@@ -23,7 +23,7 @@ public class MyInstantiationAwareBeanPostProcessor implements InstantiationAware
 	public PropertyValues postProcessProperties(PropertyValues pvs, Object bean, String beanName)
 			throws BeansException { //@GuiguValue();redis
 		System.out.println("MyInstantiationAwareBeanPostProcessor...postProcessProperties=>"+bean+"--"+beanName);
-		return null;
+		return pvs;
 	}
 //	public PropertyValues postProcessPropertyValues(
 //			PropertyValues pvs, PropertyDescriptor[] pds, Object bean, String beanName) throws BeansException {

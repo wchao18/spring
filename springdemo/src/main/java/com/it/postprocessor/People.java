@@ -1,5 +1,7 @@
 package com.it.postprocessor;
 
+import com.it.postprocessor.bean.Cat;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -9,11 +11,14 @@ import org.springframework.stereotype.Component;
  * @date 2021/08/09 18:07
  */
 @Component
-public class TestBeanProcessor {
+public class People {
+
+    @Autowired
+    private Cat cat;
 
     private String name;
 
-    public TestBeanProcessor() {
+    public People() {
         System.out.println("*************** TestBeanProcessor");
     }
 
