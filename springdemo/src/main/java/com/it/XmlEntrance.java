@@ -3,6 +3,10 @@ package com.it;
 import com.it.aware.AContext;
 import com.it.aware.AContextAware;
 import com.it.bean.User;
+import com.it.bean.lookup.AbstractPeople;
+import com.it.bean.lookup.People;
+import com.it.bean.replace.OriginClass;
+import com.it.postprocessor.factory.annotation.CustomBeanClass;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -22,7 +26,7 @@ public class XmlEntrance {
                 new ClassPathXmlApplicationContext("spring" + "/spring-${x}.xml");
 */
 
-        ClassPathXmlApplicationContext classPathXmlApplicationContext = new ClassPathXmlApplicationContext("spring/spring-config.xml");
+        ClassPathXmlApplicationContext classPathXmlApplicationContext = new ClassPathXmlApplicationContext("spring/spring-processor.xml");
         //new ClassPathXmlApplicationContext("spring/spring-processor.xml");
 
         //测试刷新
@@ -58,6 +62,18 @@ public class XmlEntrance {
         System.out.println("容器：" + aContextAware.getApplicationContext());*/
 
         //测试工厂bean
-        User bean = classPathXmlApplicationContext.getBean(User.class);
+        //User bean = classPathXmlApplicationContext.getBean(User.class);
+
+        //测试looup-method-动态代理
+        /*AbstractPeople people = (AbstractPeople)classPathXmlApplicationContext.getBean("people");
+        people.say();*/
+
+        //测试replace-method
+       /* OriginClass originClass = (OriginClass)classPathXmlApplicationContext.getBean("originClass");
+        originClass.method("");*/
+
+        CustomBeanClass customScannerBeanClass = classPathXmlApplicationContext.getBean(CustomBeanClass.class);
+        System.out.println(customScannerBeanClass);
+
     }
 }

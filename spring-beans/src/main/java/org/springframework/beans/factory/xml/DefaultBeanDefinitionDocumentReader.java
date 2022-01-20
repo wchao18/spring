@@ -120,7 +120,7 @@ public class DefaultBeanDefinitionDocumentReader implements BeanDefinitionDocume
      * Register each bean definition within the given root {@code <beans/>} element.
      */
     @SuppressWarnings("deprecation")  // for Environment.acceptsProfiles(String...)
-    protected void doRegisterBeanDefinitions(Element root) {
+    protected void doRegisterBeanDefinitions(Element root) {//<beans>标签
         // Any nested <beans> elements will cause recursion in this method. In
         // order to propagate and preserve <beans> default-* attributes correctly,
         // keep track of the current (parent) delegate, which may be null. Create

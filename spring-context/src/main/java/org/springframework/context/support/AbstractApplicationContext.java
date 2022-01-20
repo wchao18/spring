@@ -763,6 +763,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
      * 必须在单实例实例化之前调用。
      */
     protected void invokeBeanFactoryPostProcessors(ConfigurableListableBeanFactory beanFactory) {
+        //重点代码
         PostProcessorRegistrationDelegate.invokeBeanFactoryPostProcessors(beanFactory, getBeanFactoryPostProcessors());
         // 如何找到一个LoadTimeWeaver，那么就准备将后置处理器“织入”bean工厂
         // (例如，一个 @Bean 方法通过ConfigurationClassPostProcessor来注册)

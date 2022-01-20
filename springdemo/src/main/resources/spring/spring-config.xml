@@ -47,7 +47,7 @@
         <property name="name" value="啦啦啦"></property>
     </bean>
     <!--xml和 注解形式自动装配-->
-    <context:component-scan base-package="com.it.aware"/>
+    <context:component-scan base-package="com.it.aware,com.it.bean.anntation_class"/>
 
     <!--Ingnore测试-->
    <!-- <bean class="org.springframework.testIgnore.PoJoA"/>
@@ -59,6 +59,21 @@
     <bean class="org.springframework.testIgnore.IgnoreOther" id="IgnoreOtherByName" autowire="byName"/>
     <bean class="org.springframework.testIgnore.IgnoreOther" id="IgnoreOtherByConstructor" autowire="constructor"/>
 -->
+
+    <!--测试lookup-->
+    <bean id ="man" class="com.it.bean.lookup.Man">
+    </bean>
+    <bean id="people" class="com.it.bean.lookup.AbstractPeople">
+        <lookup-method name="getPeople" bean="man"></lookup-method>
+    </bean>
+
+    <!--测试replace-method-->
+    <bean id = "replaceClass" class="com.it.bean.replace.ReplaceClass"></bean>
+    <bean id = "originClass" class="com.it.bean.replace.OriginClass">
+        <replaced-method name="method" replacer="replaceClass">
+            <arg-type match="java.lang.String"></arg-type>
+        </replaced-method>
+    </bean>
 
 </beans>
 

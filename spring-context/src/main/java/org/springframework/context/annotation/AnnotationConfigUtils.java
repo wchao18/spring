@@ -261,7 +261,7 @@ public abstract class AnnotationConfigUtils {
 		if (role != null) {
 			abd.setRole(role.getNumber("value").intValue());
 		}
-		AnnotationAttributes description = attributesFor(metadata, Description.class);
+ 		AnnotationAttributes description = attributesFor(metadata, Description.class);
 		if (description != null) {
 			abd.setDescription(description.getString("value"));
 		}

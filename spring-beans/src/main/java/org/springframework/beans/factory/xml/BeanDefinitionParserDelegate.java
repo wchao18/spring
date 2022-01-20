@@ -413,7 +413,7 @@ public class BeanDefinitionParserDelegate {
         //获取<Bean>元素中的id属性值
         String id = ele.getAttribute(ID_ATTRIBUTE);
         //获取<Bean>元素中的name属性值
-        //<bean class="study.spring.bean.Bean" id="bean1" name="firstBean 1stBean"></bean>
+        //<bean class="study.spring.bean.Bean" id="bean1" name="firstBean,1stBean"></bean>
         String nameAttr = ele.getAttribute(NAME_ATTRIBUTE);
 
         List<String> aliases = new ArrayList<>();
@@ -437,7 +437,7 @@ public class BeanDefinitionParserDelegate {
             //检查<Bean>元素所配置的id、name或者别名是否重复
             checkNameUniqueness(beanName, aliases, ele);
         }
-        //对<bean>标签的其他属性进行解析
+        //重要：对<bean>标签的其他属性进行解析
         AbstractBeanDefinition beanDefinition = parseBeanDefinitionElement(ele, beanName, containingBean);
         //主要给BeanDefinition起名字
         if (beanDefinition != null) {
