@@ -532,7 +532,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 			if (logger.isTraceEnabled()) {
 				logger.trace("Finished creating instance of bean '" + beanName + "'");
 			}
-			return beanInstance;
+  			return beanInstance;
 		}
 		catch (BeanCreationException | ImplicitlyAppearedSingletonException ex) {
 			// A previously detected exception with proper bean creation context already,
@@ -625,7 +625,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 		//这个exposedObject在初始化完成之后返回作为依赖注入完成后的Bean
 		Object exposedObject = bean;
 		try {
-			//**设置bean实例的属性,实例属性值还是为空的
+			//**设置bean实例的属性,实例属性值这里还是为空的
             //自动装配(比如autowired)也是这里
 			populateBean(beanName, mbd, instanceWrapper);
 

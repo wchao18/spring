@@ -73,7 +73,7 @@ public class StandardEnvironment extends AbstractEnvironment {
 	 * @see #getSystemProperties()
 	 * @see #getSystemEnvironment()
 	 */
-    //在创建时就将JVM系统属性和系统环境属性存入资源容器中
+    //在创建时就将JVM系统属性和系统环境属性存入资源容器中，property和environment
 	@Override
 	protected void customizePropertySources(MutablePropertySources propertySources) {
 		propertySources.addLast(

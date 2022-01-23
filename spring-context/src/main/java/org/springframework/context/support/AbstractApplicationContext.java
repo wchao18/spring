@@ -730,6 +730,8 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
         beanFactory.addBeanPostProcessor(new ApplicationListenerDetector(this));
 
         // 如果找到一个LoadTimeWeaver，那么就准备将后置处理器“织入”bean工厂
+        //LoadTimeWeaver 类加载器织入
+        //代码织入的三种方式如下：编译器织入（AspectJ）、类加载器织入(AspectJ)、运行期织入（Spring AOP）
         if (beanFactory.containsBean(LOAD_TIME_WEAVER_BEAN_NAME)) {
             beanFactory.addBeanPostProcessor(new LoadTimeWeaverAwareProcessor(beanFactory));
             // 为类型匹配设置临时类加载器.
@@ -760,9 +762,11 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 
     /**
      * 实例化并调用所有已注册的BeanFactoryPostProcessor 的 bean，如果已给出顺序，请按照顺序。
+     *
      * 必须在单实例实例化之前调用。
      */
     protected void invokeBeanFactoryPostProcessors(ConfigurableListableBeanFactory beanFactory) {
+
         //重点代码
         PostProcessorRegistrationDelegate.invokeBeanFactoryPostProcessors(beanFactory, getBeanFactoryPostProcessors());
         // 如何找到一个LoadTimeWeaver，那么就准备将后置处理器“织入”bean工厂
@@ -880,15 +884,16 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
      * 不影响其他监听器，可以在没有bean的情况下添加。
      */
     protected void registerListeners() {
-        // 首先注册静态的指定的监听器
+        // 1、去集合applicationListeners中查找，找到实现ApplicationListener的bean
         for (ApplicationListener<?> listener : getApplicationListeners()) {
             getApplicationEventMulticaster().addApplicationListener(listener);
         }
 
         // 不要在这里初始化factorybean:我们需要保留所有未初始化的常规bean（事件监听器），
-        // 让后处理器应用到它们!
+        // 2、去bean工厂找到实现ApplicationListener接口的bean
         String[] listenerBeanNames = getBeanNamesForType(ApplicationListener.class, true, false);
         for (String listenerBeanName : listenerBeanNames) {
+            //增加监听器
             getApplicationEventMulticaster().addApplicationListenerBean(listenerBeanName);
         }
 

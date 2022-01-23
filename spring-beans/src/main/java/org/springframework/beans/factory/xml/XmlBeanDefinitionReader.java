@@ -330,7 +330,7 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 					"Detected cyclic loading of " + encodedResource + " - check your import definitions!");
 		}
 		try {
-			//获取文件的输入流
+			//获取文件的字节输入流
 			InputStream inputStream = encodedResource.getResource().getInputStream();
 			try {
 				//封装成InputSource，其中指定了输入流和编码格式
