@@ -15,9 +15,14 @@ public class TestListener {
         //测试事件监听器
         ApplicationContext context =
                 new ClassPathXmlApplicationContext("classpath*:spring/spring-listener.xml");
-        //***************使用spring的多播器发布**********************
-        ApplicationEventMulticaster applicationEventMulticaster =
+
+        //1、使用spring的多播器发布
+       /* ApplicationEventMulticaster applicationEventMulticaster =
                 (ApplicationEventMulticaster) context.getBean("applicationEventMulticaster");
-        applicationEventMulticaster.multicastEvent(new MessageSourceEvent("测试..."));
+        applicationEventMulticaster.multicastEvent(new MessageSourceEvent("测试..."));*/
+
+        //2、手动
+        context.publishEvent(new MessageSourceEvent("手动测试"));
+
     }
 }

@@ -29,9 +29,7 @@ public class XmlEntrance {
                 new ClassPathXmlApplicationContext("spring" + "/spring-${x}.xml");
 */
 
-        ClassPathXmlApplicationContext classPathXmlApplicationContext = new ClassPathXmlApplicationContext("spring/spring-processor.xml");
-        //new ClassPathXmlApplicationContext("spring/spring-processor.xml");
-
+        ClassPathXmlApplicationContext classPathXmlApplicationContext = new ClassPathXmlApplicationContext("spring/spring-config.xml");
         //测试刷新
        /* try {
             TimeUnit.SECONDS.sleep(5);
@@ -75,8 +73,8 @@ public class XmlEntrance {
        /* OriginClass originClass = (OriginClass)classPathXmlApplicationContext.getBean("originClass");
         originClass.method("");*/
 
-        CustomBeanClass customScannerBeanClass = classPathXmlApplicationContext.getBean(CustomBeanClass.class);
-        System.out.println(customScannerBeanClass);
-
+        //自定义注解扫描器
+        /*CustomBeanClass customScannerBeanClass = classPathXmlApplicationContext.getBean(CustomBeanClass.class);
+        System.out.println(customScannerBeanClass);*/
     }
 }

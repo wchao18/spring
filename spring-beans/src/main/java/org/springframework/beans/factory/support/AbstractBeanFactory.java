@@ -251,7 +251,6 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 		// 尝试从单例缓存集合里获取bean实例
 		Object sharedInstance = getSingleton(beanName);
 		//如果先前已经创建过单例Bean的实例，并且调用的getBean方法传入的参数为空
-		//则执行if里面的逻辑
 		//args之所以要求为空是因为如果有args，则需要做进一步赋值，因此无法直接返回
 		if (sharedInstance != null && args == null) {
 			if (logger.isTraceEnabled()) {

@@ -8,5 +8,4 @@ public class StaticFactory {
 	public static User getUser(){
 		return new User();
 	}
-
 }

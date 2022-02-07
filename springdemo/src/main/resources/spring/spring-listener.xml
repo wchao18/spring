@@ -12,7 +12,5 @@
 
     <bean id = "listenerTwo" class="com.it.listener.ApplicationContextListenerTwo"></bean>
 
-    <bean id = "publisher" class="com.it.listener.ApplicationContextListenerPublisher"></bean>
-
 </beans>
 

@@ -7,16 +7,18 @@
        http://www.springframework.org/schema/context
        http://www.springframework.org/schema/context/spring-context.xsd">
 
-    <!--&lt;!&ndash; 1.使用类的无参构造函数创建 &ndash;&gt;
-    <bean id="user1" name="user1" class="com.it.bean.User" scope="singleton" lazy-init="true" primary="true"/>
-    <alias name="user1" alias="userAlias1,userAlias2,userAlias3"/>
-    &lt;!&ndash; 2.使用静态工厂进行创建 &ndash;&gt;
-    &lt;!&ndash; class的值不是写User对象的全路径，而是写静态工厂的全路径 &ndash;&gt;
-    &lt;!&ndash; factory-method的值写要调用的方法 &ndash;&gt;
+    <!-- 1.使用类的无参构造函数创建 -->
+  <!--  <bean id="user1" name="user1" class="com.it.bean.User" scope="singleton" lazy-init="true" primary="true"/>
+    <alias name="user1" alias="userAlias1,userAlias2,userAlias3"/>-->
+
+    <!-- 2.使用静态工厂进行创建 -->
+    <!-- class的值不是写User对象的全路径，而是写静态工厂的全路径 -->
+    <!-- factory-method的值写要调用的方法 -->
     <bean id="user2" class="com.it.bean.factory.StaticFactory" factory-method="getUser" scope="singleton"/>
-    &lt;!&ndash; 3.使用实例工厂进行创建 &ndash;&gt;
-    &lt;!&ndash; 需要先创建factoryBean对象，再通过factoryBean对象进行调用 &ndash;&gt;
-    <bean id="userFactory" class="com.it.bean.factory.UserFactory"/>
+
+    <!-- 3.使用实例工厂进行创建 -->
+    <!-- 需要先创建factoryBean对象，再通过factoryBean对象进行调用 -->
+   <!-- <bean id="userFactory" class="com.it.bean.factory.UserFactory"/>
     <bean id="user3" factory-bean="userFactory" factory-method="getUser" scope="prototype"/>-->
 
     <!--FactoryBean 工厂bean-->
@@ -47,7 +49,7 @@
         <property name="name" value="啦啦啦"></property>
     </bean>
     <!--xml和 注解形式自动装配-->
-    <context:component-scan base-package="com.it.aware,com.it.bean.anntation_class"/>
+    <context:component-scan base-package="com.it.bean"/>
 
     <!--Ingnore测试-->
    <!-- <bean class="org.springframework.testIgnore.PoJoA"/>

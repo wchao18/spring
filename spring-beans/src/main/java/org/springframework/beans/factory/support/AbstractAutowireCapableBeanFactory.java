@@ -510,12 +510,8 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 		}
 
 		try {
-		    //PS:重要方法:
-			//如果Bean配置了初始化前和初始化后的处理器，则试图返回一个需要创建Bean的代理对象
-			//resolveBeforeInstantiation只是针对有自定义的targetsource，
-			// 因为自定义的targetsource不是spring的bean那么肯定不需要进行后续的一系列的实例化,初始化。
-			// 所以可以在resolveBeforeInstantiation直接进行proxy
-            //InstantiationAwareBeanPostProcessor执行了postProcessor方法
+		    //PS:重要方法
+            //InstantiationAwareBeanPostProcessor执行了postProcessor方法，尝试直接返回对象
 			Object bean = resolveBeforeInstantiation(beanName, mbdToUse);
 			if (bean != null) {
 				return bean;
@@ -583,14 +579,13 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 		if (beanType != NullBean.class) {
 			mbd.resolvedTargetType = beanType;
 		}
-
-		// Allow post-processors to modify the merged bean definition.
 		//调用BeanDefinition属性合并完成后的BeanPostProcessor后置处理器
 		synchronized (mbd.postProcessingLock) {
 			if (!mbd.postProcessed) {
 				try {
 				    //后置处理器：MergedBeanDefinitionPostProcessor
 					//PS重点：处理BeanDefinition的定义信息
+					//AutowiredAnnotationBeanPostProcessor、CommonAnnotationBeanPostProcessor
 					applyMergedBeanDefinitionPostProcessors(mbd, beanType, beanName);
 				}
 				catch (Throwable ex) {
@@ -1250,7 +1245,6 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 			return instantiateUsingFactoryMethod(beanName, mbd, args);
 		}
 
-		// Shortcut when re-creating the same bean...
 		boolean resolved = false;
 		boolean autowireNecessary = false;
 		if (args == null) {
@@ -1279,6 +1273,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 		Constructor<?>[] ctors = determineConstructorsFromBeanPostProcessors(beanClass, beanName);
 		if (ctors != null || mbd.getResolvedAutowireMode() == AUTOWIRE_CONSTRUCTOR ||
 				mbd.hasConstructorArgumentValues() || !ObjectUtils.isEmpty(args)) {
+			//解析构造函数参数并且实例化参数对象
 			return autowireConstructor(beanName, mbd, ctors, args);
 		}
 
