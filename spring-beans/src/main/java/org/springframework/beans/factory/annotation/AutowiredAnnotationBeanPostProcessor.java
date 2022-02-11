@@ -649,7 +649,7 @@ public class AutowiredAnnotationBeanPostProcessor extends InstantiationAwareBean
 				//获取容器的类型转换器
 				TypeConverter typeConverter = beanFactory.getTypeConverter();
 				try {
-					// 获取注入的值
+					//重点：获取注入的值,会触发getBean操作
 					value = beanFactory.resolveDependency(desc, beanName, autowiredBeanNames, typeConverter);
 				}
 				catch (BeansException ex) {

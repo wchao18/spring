@@ -6,8 +6,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.Resource;
+
 @Component
 public class AutowiredConstructorBean {
+
+    //测试Autowired的后置处理器
+    @Resource
+    private TrigerClass trigerClass;
 
 
     //带头Autowired的构造方法
