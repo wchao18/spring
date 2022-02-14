@@ -9,7 +9,7 @@ public class OriginClass {
         System.out.println("origin class method");
     }
 
-    public void method(List param) {
+    public void method(List<Object> param) {
         System.out.println("origin class method");
     }
 }

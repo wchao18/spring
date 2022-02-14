@@ -435,6 +435,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 
 		Object result = existingBean;
 		for (BeanPostProcessor processor : getBeanPostProcessors()) {
+			//比如ApplicationListenerDetector 将标注@Componnet的 applicationContext.addApplicationListener
 			Object current = processor.postProcessAfterInitialization(result, beanName);
 			if (current == null) {
 				return result;
@@ -600,9 +601,6 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
  				mbd.postProcessed = true;
 			}
 		}
-
-		// Eagerly cache singletons to be able to resolve circular references
-		// even when triggered by lifecycle interfaces like BeanFactoryAware.
 		//向容器中缓存单例模式的Bean对象，以防循环引用
 		//判断是否是早期引用的bean，如果是，则允许其提前暴露引用
 		//这里判断的逻辑主要有三个：
