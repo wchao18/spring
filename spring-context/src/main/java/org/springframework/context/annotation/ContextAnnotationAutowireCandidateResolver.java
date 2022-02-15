@@ -114,7 +114,7 @@ public class ContextAnnotationAutowireCandidateResolver extends QualifierAnnotat
 		if (dependencyType.isInterface()) {
 			pf.addInterface(dependencyType);
 		}
-		return pf.getProxy(beanFactory.getBeanClassLoader());
+		return pf.getProxy(beanFactory.getBeanClassLoader());//生成代理cglib
 	}
 
 }

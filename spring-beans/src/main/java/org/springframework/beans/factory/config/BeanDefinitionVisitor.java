@@ -76,11 +76,13 @@ public class BeanDefinitionVisitor {
 	 * @see #resolveStringValue(String)
 	 */
 	public void visitBeanDefinition(BeanDefinition beanDefinition) {
+		//解析parentName
 		visitParentName(beanDefinition);
 		visitBeanClassName(beanDefinition);
 		visitFactoryBeanName(beanDefinition);
 		visitFactoryMethodName(beanDefinition);
 		visitScope(beanDefinition);
+		//如果beanDefinition 存在属性值，则把占位符替换成真正的属性值
 		if (beanDefinition.hasPropertyValues()) {
 			visitPropertyValues(beanDefinition.getPropertyValues());
 		}
@@ -219,6 +221,7 @@ public class BeanDefinitionVisitor {
 			}
 		}
 		else if (value instanceof String) {
+			//重点
 			return resolveStringValue((String) value);
 		}
 		return value;

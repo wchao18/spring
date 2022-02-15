@@ -5,6 +5,7 @@ import com.it.aware.AContextAware;
 import com.it.bean.User;
 import com.it.bean.lookup.AbstractPeople;
 import com.it.bean.lookup.People;
+import com.it.bean.propertiesbean.PropertiesBean;
 import com.it.bean.replace.OriginClass;
 import com.it.postprocessor.factory.annotation.CustomBeanClass;
 import com.it.listener.MessageSourceEvent;
@@ -22,11 +23,8 @@ public class XmlEntrance {
 
     public static void main(String[] args) {
 
-       /* ClassPathXmlApplicationContext classPathXmlApplicationContext = new ClassPathXmlApplicationContext("spring" +
-                "/spring-config.xml");*/
         System.setProperty("x", "config");
-    /*    ClassPathXmlApplicationContext classPathXmlApplicationContext =
-                new ClassPathXmlApplicationContext("spring" + "/spring-${x}.xml");
+    /*    ClassPathXmlApplicationContext classPathXmlApplicationContext = new ClassPathXmlApplicationContext("spring" + "/spring-${x}.xml");
 */
 
         ClassPathXmlApplicationContext classPathXmlApplicationContext = new ClassPathXmlApplicationContext("spring/spring-config.xml");
@@ -76,5 +74,12 @@ public class XmlEntrance {
         //自定义注解扫描器
         /*CustomBeanClass customScannerBeanClass = classPathXmlApplicationContext.getBean(CustomBeanClass.class);
         System.out.println(customScannerBeanClass);*/
+
+        //bean销毁
+        //classPathXmlApplicationContext.getBeanFactory().destroySingletons();
+
+        //配置文件测试
+        PropertiesBean propertiesBean = classPathXmlApplicationContext.getBean(PropertiesBean.class);
+        System.out.println(propertiesBean.getName());
     }
 }

@@ -172,13 +172,13 @@ public class PropertySourcesPlaceholderConfigurer extends PlaceholderConfigurerS
 		StringValueResolver valueResolver = strVal -> {
 			String resolved = (this.ignoreUnresolvablePlaceholders ?
 					propertyResolver.resolvePlaceholders(strVal) :
-					propertyResolver.resolveRequiredPlaceholders(strVal));
+					propertyResolver.resolveRequiredPlaceholders(strVal));//核心
 			if (this.trimValues) {
 				resolved = resolved.trim();
 			}
 			return (resolved.equals(this.nullValue) ? null : resolved);
 		};
-
+        //核心流程,把占位符${} 替换成真正的值
 		doProcessProperties(beanFactoryToProcess, valueResolver);
 	}
 
