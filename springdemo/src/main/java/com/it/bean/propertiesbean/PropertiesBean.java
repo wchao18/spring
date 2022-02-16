@@ -3,6 +3,9 @@ package com.it.bean.propertiesbean;
 
 import org.springframework.stereotype.Component;
 
+/**
+ * xml中设置属性值
+ */
 public class PropertiesBean {
 
     private String name;

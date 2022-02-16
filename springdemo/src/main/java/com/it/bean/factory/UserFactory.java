@@ -1,6 +1,6 @@
 package com.it.bean.factory;
 
-import com.it.bean.User;
+import com.it.bean.factorybean.User;
 //实例工厂调用
 public class UserFactory {
 	//普通的方法，返回User对象

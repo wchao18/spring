@@ -1,31 +1,18 @@
 package com.it;
 
-import com.it.aware.AContext;
-import com.it.aware.AContextAware;
-import com.it.bean.User;
-import com.it.bean.lookup.AbstractPeople;
-import com.it.bean.lookup.People;
+import com.it.bean.factory.UserFactory;
+import com.it.bean.factorybean.User;
+import com.it.bean.factorybean.UserFactoryBean;
 import com.it.bean.propertiesbean.PropertiesBean;
-import com.it.bean.replace.OriginClass;
-import com.it.postprocessor.factory.annotation.CustomBeanClass;
-import com.it.listener.MessageSourceEvent;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.event.ApplicationEventMulticaster;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-import org.springframework.testIgnore.IgnoreOther;
-import org.springframework.testIgnore.PoJoA;
-
-import java.util.Arrays;
 
 public class XmlEntrance {
 
     public static void main(String[] args) {
 
         System.setProperty("x", "config");
-    /*    ClassPathXmlApplicationContext classPathXmlApplicationContext = new ClassPathXmlApplicationContext("spring" + "/spring-${x}.xml");
-*/
+        /*    ClassPathXmlApplicationContext classPathXmlApplicationContext = new ClassPathXmlApplicationContext("spring" + "/spring-${x}.xml");
+         */
 
         ClassPathXmlApplicationContext classPathXmlApplicationContext = new ClassPathXmlApplicationContext("spring/spring-config.xml");
         //测试刷新
@@ -79,7 +66,19 @@ public class XmlEntrance {
         //classPathXmlApplicationContext.getBeanFactory().destroySingletons();
 
         //配置文件测试
-        PropertiesBean propertiesBean = classPathXmlApplicationContext.getBean(PropertiesBean.class);
-        System.out.println(propertiesBean.getName());
+     /*   PropertiesBean propertiesBean = classPathXmlApplicationContext.getBean(PropertiesBean.class);
+        System.out.println(propertiesBean.getName());*/
+
+        //factoryBean
+        //User user = (User) classPathXmlApplicationContext.getBean("userFactoryBean");
+
+        //多例bean,容器启动不会加载
+       /* Object prototypeBeanA = classPathXmlApplicationContext.getBean("prototypeBeanA");
+        System.out.println(prototypeBeanA);
+        Object prototypeBeanA1 = classPathXmlApplicationContext.getBean("prototypeBeanA");
+        System.out.println(prototypeBeanA1);*/
+
+       //自定义scope,容器启动不会加载
+        System.out.println(classPathXmlApplicationContext.getBean("customScopeBean"));
     }
 }

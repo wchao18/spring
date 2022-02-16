@@ -21,9 +21,6 @@
    <!-- <bean id="userFactory" class="com.it.bean.factory.UserFactory"/>
     <bean id="user3" factory-bean="userFactory" factory-method="getUser" scope="prototype"/>-->
 
-    <!--FactoryBean 工厂bean-->
-    <bean id="userFactoryBean" class="com.it.bean.UserFactoryBean"/>
-
 
     <!--实现了DisposableBean接口,依赖destroy2-->
  <!--   <bean class="com.it.destory.Destroy.Destroy1" name="destroy1" depends-on="destroy2"/>

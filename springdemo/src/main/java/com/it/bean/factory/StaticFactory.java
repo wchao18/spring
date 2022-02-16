@@ -1,6 +1,6 @@
 package com.it.bean.factory;
 
-import com.it.bean.User;
+import com.it.bean.factorybean.User;
 
 //静态工厂调用
 public class StaticFactory {

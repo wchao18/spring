@@ -97,7 +97,7 @@ class ApplicationContextAwareProcessor implements BeanPostProcessor {
 			}, acc);
 		}
 		else {
-			invokeAwareInterfaces(bean);
+			invokeAwareInterfaces(bean);//重点 setApplicationContext、setEnvironment
 		}
 
 		return bean;

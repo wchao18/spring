@@ -393,6 +393,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 				//比较常用，如：request、session、application等生命周期
 				else {
 					String scopeName = mbd.getScope();
+					//Map<String, Scope> scopes = new LinkedHashMap<>
 					final Scope scope = this.scopes.get(scopeName);
 					//Bean定义资源中没有配置生命周期范围，则Bean定义不合法
 					if (scope == null) {
@@ -1878,7 +1879,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 		if (!(beanInstance instanceof FactoryBean)) {
 			return beanInstance;
 		}
-		//FactoryBean创建出bean实例返回
+		//此时beanName不是以&开头,并且beanInstance是FactoryBean类型的
 		Object object = null;
 		if (mbd != null) {
 			mbd.isFactoryBean = true;
@@ -1897,7 +1898,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 				mbd = getMergedLocalBeanDefinition(beanName);
 			}
 			boolean synthetic = (mbd != null && mbd.isSynthetic());
-			object = getObjectFromFactoryBean(factory, beanName, !synthetic);
+			object = getObjectFromFactoryBean(factory, beanName, !synthetic);//入口
 		}
 		return object;
 	}
