@@ -166,9 +166,11 @@ class ConfigurationClassParser {
 		for (BeanDefinitionHolder holder : configCandidates) {
 			BeanDefinition bd = holder.getBeanDefinition();
 			try {
+				//扫描注解得到的BeanDefinition
 				if (bd instanceof AnnotatedBeanDefinition) {
 					parse(((AnnotatedBeanDefinition) bd).getMetadata(), holder.getBeanName());
 				}
+				//非扫描注解得到的BeanDefinition
 				else if (bd instanceof AbstractBeanDefinition && ((AbstractBeanDefinition) bd).hasBeanClass()) {
 					parse(((AbstractBeanDefinition) bd).getBeanClass(), holder.getBeanName());
 				}
@@ -218,6 +220,7 @@ class ConfigurationClassParser {
 
 
 	protected void processConfigurationClass(ConfigurationClass configClass) throws IOException {
+		//对@Condition注解的支持,过滤掉不需要实例化的类
 		if (this.conditionEvaluator.shouldSkip(configClass.getMetadata(), ConfigurationPhase.PARSE_CONFIGURATION)) {
 			return;
 		}
@@ -451,8 +454,11 @@ class ConfigurationClassParser {
 
 		for (String location : locations) {
 			try {
+				//替换占位符
 				String resolvedLocation = this.environment.resolveRequiredPlaceholders(location);
+				//流的方式加载配置文件并封装成Resource对象
 				Resource resource = this.resourceLoader.getResource(resolvedLocation);
+				//加载Resource中的配置属性封装成Properties
 				addPropertySource(factory.createPropertySource(name, new EncodedResource(resource, encoding)));
 			}
 			catch (IllegalArgumentException | FileNotFoundException | UnknownHostException ex) {
@@ -496,6 +502,7 @@ class ConfigurationClassParser {
 		}
 
 		if (this.propertySourceNames.isEmpty()) {
+			//添加配置文件到 环境变量集合中
 			propertySources.addLast(propertySource);
 		}
 		else {

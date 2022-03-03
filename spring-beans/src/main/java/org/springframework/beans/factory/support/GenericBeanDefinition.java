@@ -20,6 +20,8 @@ import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.lang.Nullable;
 import org.springframework.util.ObjectUtils;
 
+import java.lang.reflect.Proxy;
+
 /**
  * GenericBeanDefinition is a one-stop shop for standard bean definition purposes.
  * Like any bean definition, it allows for specifying a class plus optionally
@@ -42,6 +44,7 @@ public class GenericBeanDefinition extends AbstractBeanDefinition {
 
 	@Nullable
 	private String parentName;
+
 
 
 	/**

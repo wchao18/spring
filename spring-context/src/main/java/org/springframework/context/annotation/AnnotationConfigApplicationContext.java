@@ -91,7 +91,7 @@ public class AnnotationConfigApplicationContext extends GenericApplicationContex
 		this();
 		//把传入的Class进行注册,Class既可以有@Configuration注解,也可以没有@Configuration注解
 		//如何注册委托给了 org.springframework.context.annotation.AnnotatedBeanDefinitionReader.register 方法进行注册
-		// 包装传入的Class 生成 BeanDefinition , 注册到BeanDefinitionRegistry
+		//重要: 包装传入的Class 生成 BeanDefinition , 注册到BeanDefinitionRegistry
 		register(componentClasses);
 		refresh();
 	}

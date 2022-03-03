@@ -238,7 +238,7 @@ public class ConfigurationClassPostProcessor implements BeanDefinitionRegistryPo
 					"postProcessBeanFactory already called on this post-processor against " + registry);
 		}
 		this.registriesPostProcessed.add(registryId);
-
+        //重点
 		processConfigBeanDefinitions(registry);
 	}
 
@@ -281,7 +281,7 @@ public class ConfigurationClassPostProcessor implements BeanDefinitionRegistryPo
 				}
 			}
 			else if (ConfigurationClassUtils.checkConfigurationClassCandidate(beanDef, this.metadataReaderFactory)) {
-				// 判断对应bean是否为配置类,如果是,则加入到configCandidates
+				//判断对应bean是否为配置类(判断是否含有@Component、@ComponentScan、@Import、@ImportResource) 如果是,则加入到configCandidates
 				configCandidates.add(new BeanDefinitionHolder(beanDef, beanName));
 			}
 		}

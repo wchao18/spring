@@ -1,5 +1,6 @@
 package com.it;
 
+import com.it.bean.scanbean.ScanBean;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.Configuration;
 
@@ -8,12 +9,11 @@ import org.springframework.context.annotation.Configuration;
  * @description 注解启动类
  * @date 2021/08/09 18:18
  */
-@Configuration
 public class AnnotationEntrance {
 
     public static void main(String[] args) {
         AnnotationConfigApplicationContext annotationConfigApplicationContext =
-                new AnnotationConfigApplicationContext(AnnotationEntrance.class);
+                new AnnotationConfigApplicationContext(ScanBean.class);
 
     }
 }

@@ -16,6 +16,6 @@ public class ValueBean implements EnvironmentAware {
 
     @Override
     public void setEnvironment(Environment environment) {
-        System.out.println(environment.getProperty("my2022"));
+        System.out.println("ValueBean " + environment.getProperty("my2022"));
     }
 }
