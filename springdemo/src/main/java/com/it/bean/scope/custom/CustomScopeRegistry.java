@@ -1,4 +1,4 @@
-package com.it.bean.scope;
+package com.it.bean.scope.custom;
 
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;

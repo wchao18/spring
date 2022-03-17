@@ -1,4 +1,4 @@
-package com.it.bean.scope;
+package com.it.bean.scope.custom;
 
 
 import org.springframework.context.annotation.Scope;

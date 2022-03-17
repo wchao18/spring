@@ -10,6 +10,10 @@ import org.springframework.stereotype.Component;
 @Component
 public class UserFactoryBean implements FactoryBean<User>{
 
+	public UserFactoryBean(){
+		System.out.println("=======================000000000000000===================");
+	}
+
 	//容器启动时不会触发
 	@Override
 	public User getObject() throws Exception {
