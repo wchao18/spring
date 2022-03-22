@@ -4,6 +4,6 @@ import org.springframework.context.annotation.Import;
 import org.springframework.stereotype.Component;
 
 @Component
-@Import(ImportAwareBean.class)
+@Import({DeferredImportSelectorDemo.class,SelectImportClass.class,ImportAwareBean.class})
 public class ImportAwareClass {
 }

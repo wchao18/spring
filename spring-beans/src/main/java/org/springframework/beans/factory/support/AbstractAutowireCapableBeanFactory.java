@@ -436,6 +436,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 		Object result = existingBean;
 		for (BeanPostProcessor processor : getBeanPostProcessors()) {
 			//比如ApplicationListenerDetector 将标注@Componnet的 applicationContext.addApplicationListener
+			//比如AOP代理
 			Object current = processor.postProcessAfterInitialization(result, beanName);
 			if (current == null) {
 				return result;
@@ -1958,6 +1959,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 		}
         //后置处理器 后
 		if (mbd == null || !mbd.isSynthetic()) {
+			//这里重要的就是aop
 			wrappedBean = applyBeanPostProcessorsAfterInitialization(wrappedBean, beanName);
 		}
 

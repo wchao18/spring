@@ -342,6 +342,7 @@ class ConfigurationClassEnhancer {
 				}
 				else {
 					// It is a candidate FactoryBean - go ahead with enhancement
+					//入口
 					return enhanceFactoryBean(factoryBean, beanMethod.getReturnType(), beanFactory, beanName);
 				}
 			}
@@ -360,9 +361,10 @@ class ConfigurationClassEnhancer {
 									"these container lifecycle issues; see @Bean javadoc for complete details.",
 							beanMethod.getDeclaringClass().getSimpleName(), beanMethod.getName()));
 				}
+				//调用被代理方法
 				return cglibMethodProxy.invokeSuper(enhancedConfigInstance, beanMethodArgs);
 			}
-
+			//用代理对象手动调用@Bean的方法的时候才会走
 			return resolveBeanReference(beanMethod, beanMethodArgs, beanFactory, beanName);
 		}
 
@@ -566,7 +568,7 @@ class ConfigurationClassEnhancer {
 							"and regular FactoryBean instantiation via default constructor fails as well", ex);
 				}
 			}
-
+            //重点
 			((Factory) fbProxy).setCallback(0, (MethodInterceptor) (obj, method, args, proxy) -> {
 				if (method.getName().equals("getObject") && args.length == 0) {
 					return beanFactory.getBean(beanName);

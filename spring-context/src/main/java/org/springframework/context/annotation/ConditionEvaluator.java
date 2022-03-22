@@ -93,8 +93,10 @@ class ConditionEvaluator {
 		}
 
 		List<Condition> conditions = new ArrayList<>();
+		//获取Conditional注解的value的值
 		for (String[] conditionClasses : getConditionClasses(metadata)) {
 			for (String conditionClass : conditionClasses) {
+				//反射实例化Condition
 				Condition condition = getCondition(conditionClass, this.context.getClassLoader());
 				conditions.add(condition);
 			}
@@ -107,6 +109,7 @@ class ConditionEvaluator {
 			if (condition instanceof ConfigurationCondition) {
 				requiredPhase = ((ConfigurationCondition) condition).getConfigurationPhase();
 			}
+			//调用matches方法
 			if ((requiredPhase == null || requiredPhase == phase) && !condition.matches(this.context, metadata)) {
 				return true;
 			}

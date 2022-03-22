@@ -124,10 +124,11 @@ abstract class ConfigurationClassUtils {
 		}
 
 		Map<String, Object> config = metadata.getAnnotationAttributes(Configuration.class.getName());
+		//如果有Configuration注解,就是完全匹配标识
 		if (config != null && !Boolean.FALSE.equals(config.get("proxyBeanMethods"))) {
 			beanDef.setAttribute(CONFIGURATION_CLASS_ATTRIBUTE, CONFIGURATION_CLASS_FULL);
 		}
-		//判断是否含有@Component、@ComponentScan、@Import、@ImportResource
+		//判断是否含有@Component、@ComponentScan、@Import、@ImportResource @Bean
 		else if (config != null || isConfigurationCandidate(metadata)) {
 			beanDef.setAttribute(CONFIGURATION_CLASS_ATTRIBUTE, CONFIGURATION_CLASS_LITE);
 		}
@@ -165,6 +166,7 @@ abstract class ConfigurationClassUtils {
 
 		// Finally, let's look for @Bean methods...
 		try {
+			//@Bean注解匹配
 			return metadata.hasAnnotatedMethods(Bean.class.getName());
 		}
 		catch (Throwable ex) {

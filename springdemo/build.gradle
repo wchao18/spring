@@ -16,6 +16,9 @@ dependencies {
     compile(project(":spring-aspects"))
     compile(project(":spring-aop"))
     compile(project(":spring-context-indexer"))
-    testCompile group: 'junit', name: 'junit', version: '4.12'
+    
+    compile group: 'junit', name: 'junit', version: '4.12'
+    implementation group: 'org.hamcrest', name: 'hamcrest-core', version: '1.3'
+    //testCompile group: 'junit', name: 'junit', version: '4.12'
     implementation group: 'javax.inject', name: 'javax.inject', version: '1'
 }

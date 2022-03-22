@@ -100,7 +100,7 @@ public abstract class FactoryBeanRegistrySupport extends DefaultSingletonBeanReg
 				//又见双重检查锁机制，尝试再从缓存中获取，防止多线程下可能有别的线程已完成该单例Bean的创建
 				Object object = this.factoryBeanObjectCache.get(beanName);
 				if (object == null) {
-					//调用工厂方法，创建Bean实例
+					//重点：调用工厂方法，创建Bean实例
 					object = doGetObjectFromFactoryBean(factory, beanName);
 					// Only post-process and store if not put there already during getObject() call above
 					// (e.g. because of circular reference processing triggered by custom getBean calls)

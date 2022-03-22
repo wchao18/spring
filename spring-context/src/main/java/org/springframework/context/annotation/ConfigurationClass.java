@@ -55,13 +55,17 @@ final class ConfigurationClass {
 	@Nullable
 	private String beanName;
 
+	//外部类
 	private final Set<ConfigurationClass> importedBy = new LinkedHashSet<>(1);
 
+	//@Bean的注解的方法
 	private final Set<BeanMethod> beanMethods = new LinkedHashSet<>();
 
+	//@ImportResource
 	private final Map<String, Class<? extends BeanDefinitionReader>> importedResources =
 			new LinkedHashMap<>();
 
+	//@Import ImportBeanDefinitionRegistrar
 	private final Map<ImportBeanDefinitionRegistrar, AnnotationMetadata> importBeanDefinitionRegistrars =
 			new LinkedHashMap<>();
 

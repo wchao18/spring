@@ -127,7 +127,7 @@ class ConfigurationClassBeanDefinitionReader {
 	 */
 	private void loadBeanDefinitionsForConfigurationClass(
 			ConfigurationClass configClass, TrackedConditionEvaluator trackedConditionEvaluator) {
-
+		//是否要跳过
 		if (trackedConditionEvaluator.shouldSkip(configClass)) {
 			String beanName = configClass.getBeanName();
 			if (StringUtils.hasLength(beanName) && this.registry.containsBeanDefinition(beanName)) {
@@ -136,15 +136,20 @@ class ConfigurationClassBeanDefinitionReader {
 			this.importRegistry.removeImportingClass(configClass.getMetadata().getClassName());
 			return;
 		}
-
+        //@Import导入进来的
 		if (configClass.isImported()) {
 			registerBeanDefinitionForImportedConfigurationClass(configClass);
 		}
+
+		//@Bean注解的方法
 		for (BeanMethod beanMethod : configClass.getBeanMethods()) {
 			loadBeanDefinitionsForBeanMethod(beanMethod);
 		}
 
+		//@ImportResource注解的xml文件
 		loadBeanDefinitionsFromImportedResources(configClass.getImportedResources());
+
+		//ImportBeanDefinitionRegistrar
 		loadBeanDefinitionsFromRegistrars(configClass.getImportBeanDefinitionRegistrars());
 	}
 
@@ -188,7 +193,7 @@ class ConfigurationClassBeanDefinitionReader {
 		if (configClass.skippedBeanMethods.contains(methodName)) {
 			return;
 		}
-
+        //@Bean的属性值
 		AnnotationAttributes bean = AnnotationConfigUtils.attributesFor(metadata, Bean.class);
 		Assert.state(bean != null, "No @Bean annotation attributes");
 

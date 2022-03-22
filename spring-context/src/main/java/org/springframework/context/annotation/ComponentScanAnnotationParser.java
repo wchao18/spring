@@ -74,6 +74,7 @@ class ComponentScanAnnotationParser {
 
 
 	public Set<BeanDefinitionHolder> parse(AnnotationAttributes componentScan, final String declaringClass) {
+		//扫描器构造函数 增加类的过滤器（重点）
 		ClassPathBeanDefinitionScanner scanner = new ClassPathBeanDefinitionScanner(this.registry,
 				componentScan.getBoolean("useDefaultFilters"), this.environment, this.resourceLoader);
 
@@ -129,6 +130,7 @@ class ComponentScanAnnotationParser {
 				return declaringClass.equals(className);
 			}
 		});
+		//入口，扫描注解的类，代码和xml中ComponentScan一样
 		return scanner.doScan(StringUtils.toStringArray(basePackages));
 	}
 
