@@ -1388,6 +1388,7 @@ public class BeanDefinitionParserDelegate {
          * 随后通过namespaceHandlerResolver的resolve方法根据namespaceUri获取对应的handler对象
          * 比如AopNamespaceHandler、ContextNamespaceHandler等等
          */
+        //加载指定路径下的mapping文件为Properties集合，默认路径为"META-INF/spring.handlers"
         NamespaceHandler handler = this.readerContext.getNamespaceHandlerResolver().resolve(namespaceUri);
         if (handler == null) {
             error("Unable to locate Spring NamespaceHandler for XML schema namespace [" + namespaceUri + "]", ele);

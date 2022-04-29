@@ -292,7 +292,7 @@ public abstract class AopUtils {
 	 * @return whether the pointcut can apply on any method
 	 */
 	public static boolean canApply(Advisor advisor, Class<?> targetClass, boolean hasIntroductions) {
-		//判断是否是IntroductionAdvisor
+		//判断是否是IntroductionAdvisor（类级别拦截）
 		if (advisor instanceof IntroductionAdvisor) {
 			return ((IntroductionAdvisor) advisor).getClassFilter().matches(targetClass);
 		}
@@ -334,6 +334,7 @@ public abstract class AopUtils {
 				// already processed
 				continue;
 			}
+			//canApply
 			if (canApply(candidate, clazz, hasIntroductions)) {
 				eligibleAdvisors.add(candidate);
 			}

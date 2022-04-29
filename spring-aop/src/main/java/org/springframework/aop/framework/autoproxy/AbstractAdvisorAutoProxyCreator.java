@@ -91,13 +91,15 @@ public abstract class AbstractAdvisorAutoProxyCreator extends AbstractAutoProxyC
 	 * @see #extendAdvisors
 	 */
 	protected List<Advisor> findEligibleAdvisors(Class<?> beanClass, String beanName) {
-		//找到Spring IoC容器中所有的候选Advisor
+		//找到Spring IoC容器中所有的候选Advisor(切面)，其实就是一个寻找有@Aspectj注解的过程
 		List<Advisor> candidateAdvisors = findCandidateAdvisors();
 		//判断找到的Advisor能不能作用到当前的类上
 		List<Advisor> eligibleAdvisors = findAdvisorsThatCanApply(candidateAdvisors, beanClass, beanName);
+		//
 		extendAdvisors(eligibleAdvisors);
-		//对获取到的advisor进行排序
+
 		if (!eligibleAdvisors.isEmpty()) {
+			//对获取到的advisors上的@order和@Priority进行排序（寻找advisor中的时候做了一次排序）
 			eligibleAdvisors = sortAdvisors(eligibleAdvisors);
 		}
 		return eligibleAdvisors;
@@ -125,7 +127,7 @@ public abstract class AbstractAdvisorAutoProxyCreator extends AbstractAutoProxyC
 			List<Advisor> candidateAdvisors, Class<?> beanClass, String beanName) {
 
 		ProxyCreationContext.setCurrentProxiedBeanName(beanName);
-		try {
+		try {//入口
 			return AopUtils.findAdvisorsThatCanApply(candidateAdvisors, beanClass);
 		}
 		finally {

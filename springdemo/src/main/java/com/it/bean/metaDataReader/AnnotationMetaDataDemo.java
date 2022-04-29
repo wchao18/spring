@@ -32,7 +32,7 @@ public class AnnotationMetaDataDemo implements ResourceLoaderAware {
         try {
             MetadataReader metadataReader = cachingMetadataReaderFactory.getMetadataReader(CustomScopeBean.class.getName());
             System.out.println(metadataReader);
-
+            //获取元注解信息
             AnnotationMetadata annotationMetadata = metadataReader.getAnnotationMetadata();
 
             AnnotationAttributes comArr = AnnotationAttributes.fromMap(annotationMetadata.getAnnotationAttributes(Component.class.getName(),false));

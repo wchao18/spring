@@ -265,8 +265,7 @@ public abstract class AbstractAutoProxyCreator extends ProxyProcessorSupport
 				return null;
 			}
 			// 1. 判断当前bean是否是基础类型：是否实现了Advice，Pointcut，Advisor，AopInfrastructureBean这些接口或是否是切面(@Aspect注解)
-			// 2. 判断是不是应该跳过 (AOP解析直接解析出我们的切面信息，
-			// 而事务在这里是不会解析的)
+			// 2. 判断是不是应该跳过 (AOP解析直接解析出我们的切面信息，而事务在这里是不会解析的) 、shouldSkip(重点)
 			if (isInfrastructureClass(beanClass) || shouldSkip(beanClass, beanName)) {
 				this.advisedBeans.put(cacheKey, Boolean.FALSE);
 				return null;
@@ -325,7 +324,7 @@ public abstract class AbstractAutoProxyCreator extends ProxyProcessorSupport
 			// 通过判断 earlyProxyReferences 中
 			// 是否存在 beanName 来决定是否需要对 target 进行动态代理
 			if (this.earlyProxyReferences.remove(cacheKey) != bean) {
-				//该方法将会返回代理类
+				//该方法将会返回代理类,入口
 				return wrapIfNecessary(bean, beanName, cacheKey);
 			}
 		}

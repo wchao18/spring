@@ -1,26 +1,70 @@
 package com.it.aop.aspectj;
 
+import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
+import org.aspectj.lang.annotation.After;
+import org.aspectj.lang.annotation.AfterReturning;
+import org.aspectj.lang.annotation.AfterThrowing;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
+import org.springframework.aop.interceptor.ExposeInvocationInterceptor;
 import org.springframework.stereotype.Component;
 
+import java.lang.reflect.Method;
+
+/**
+ * 排序规则
+ */
 @Component
 @Aspect
 public class AspectJAnnotationConfig {
 
-    @Pointcut("execution(public * com.it.aop.service.*.*(..))")
-    private void pc1() {
 
+    @Pointcut("execution(public * com.it.aop.service.*.*(..))")
+    public void pc1() {
     }
 
-    @Around("pc1()")//advice
-    public Object around(ProceedingJoinPoint joinPoint) throws Throwable {
-        System.out.println("===================AspectAnnotation around前置通知");
-        Object result = joinPoint.proceed();
-        System.out.println("===================AspectAnnotation around后置通知");
-        return result;
+    @Before("pc1()")
+    public void before(JoinPoint joinPoint) {
+        //重点：
+        Method method = ExposeInvocationInterceptor.currentInvocation().getMethod();
+        System.out.println("开始调用 " + joinPoint);
+    }
+
+    @After("pc1()")
+    public void after(JoinPoint joinPoint) {
+        System.out.println("调用完成 " + joinPoint);
+    }
+
+    @Around("pc1()")
+    public Object aroundMe(JoinPoint joinPoint) throws Throwable {
+        long startTime = System.currentTimeMillis();
+        Object returnValue = null;
+        System.out.println("开始计时 " + joinPoint);
+
+        returnValue = ((ProceedingJoinPoint) joinPoint).proceed();
+        System.out.println("执行成功，结束计时 " + joinPoint);
+
+        long endTime = System.currentTimeMillis();
+        System.out.println("总耗时 " + joinPoint + "[" + (endTime - startTime) + "]ms");
+
+        return returnValue;
+    }
+
+    @AfterReturning(pointcut = "pc1()", returning = "returnValue")
+    public void afterReturning(JoinPoint joinPoint, Object returnValue) {
+        System.out.println("无论是空还是有值都返回  " + joinPoint + "，返回值[" + returnValue + "]");
+    }
+
+    @AfterThrowing(pointcut = "pc1()", throwing = "exception")
+    public void afterThrowing(JoinPoint joinPoint, Exception exception) {
+        System.out.println("抛出异常通知  " + joinPoint + "   " + exception.getMessage());
+    }
+
+    public void testNoAdvise(){
+
     }
 
 }

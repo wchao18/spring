@@ -48,6 +48,6 @@ public interface Pointcut {
 	/**
 	 * Canonical Pointcut instance that always matches.
 	 */
-	Pointcut TRUE = TruePointcut.INSTANCE;
+	Pointcut TRUE = TruePointcut.INSTANCE; //不拦截
 
 }

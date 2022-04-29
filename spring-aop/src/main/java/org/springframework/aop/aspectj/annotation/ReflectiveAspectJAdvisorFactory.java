@@ -127,9 +127,10 @@ public class ReflectiveAspectJAdvisorFactory extends AbstractAspectJAdvisorFacto
 				new LazySingletonAspectInstanceFactoryDecorator(aspectInstanceFactory);
 
 		List<Advisor> advisors = new ArrayList<>();
-		//获取到切面类中的所有方法，但是该方法不会解析到标注了@PointCut注解的方法
+		//获取到切面类中的所有方法，但是该方法不会解析到 标注了@PointCut注解的方法,
+		//getAdvisorMethods(aspectClass) 切面方法排序
 		for (Method method : getAdvisorMethods(aspectClass)) {
-			//循环解析切面中的方法
+			//循环解析切面中的方法（重点重点重点）
 			Advisor advisor = getAdvisor(method, lazySingletonAspectInstanceFactory, advisors.size(), aspectName);
 			if (advisor != null) {
 				advisors.add(advisor);
@@ -162,7 +163,7 @@ public class ReflectiveAspectJAdvisorFactory extends AbstractAspectJAdvisorFacto
 				methods.add(method);
 			}
 		}, ReflectionUtils.USER_DECLARED_METHODS);
-		methods.sort(METHOD_COMPARATOR);
+		methods.sort(METHOD_COMPARATOR); //注解顺序+自然排序（ABB1CDD2）
 		return methods;
 	}
 
@@ -196,7 +197,7 @@ public class ReflectiveAspectJAdvisorFactory extends AbstractAspectJAdvisorFacto
 			int declarationOrderInAspect, String aspectName) {
 
 		validate(aspectInstanceFactory.getAspectMetadata().getAspectClass());
-		//切面的方法上构建切点表达式
+		//切面的方法上构建切点表达式 比如@Around("pc1") 上面的 pc1
 		AspectJExpressionPointcut expressionPointcut = getPointcut(
 				candidateAdviceMethod, aspectInstanceFactory.getAspectMetadata().getAspectClass());
 		if (expressionPointcut == null) {
@@ -218,7 +219,7 @@ public class ReflectiveAspectJAdvisorFactory extends AbstractAspectJAdvisorFacto
 
 		AspectJExpressionPointcut ajexp =
 				new AspectJExpressionPointcut(candidateAspectClass, new String[0], new Class<?>[0]);
-		ajexp.setExpression(aspectJAnnotation.getPointcutExpression());
+		ajexp.setExpression(aspectJAnnotation.getPointcutExpression());//设置切入表达式
 		if (this.beanFactory != null) {
 			ajexp.setBeanFactory(this.beanFactory);
 		}

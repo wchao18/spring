@@ -118,7 +118,7 @@ final class InstantiationModelAwarePointcutAdvisorImpl
 			// A singleton aspect.
 			this.pointcut = this.declaredPointcut;
 			this.lazy = false;
-			//将切面中的通知构造为advice通知对象
+			//将切面中的通知构造为advice通知对象(重点)
 			this.instantiatedAdvice = instantiateAdvice(this.declaredPointcut);
 		}
 	}
