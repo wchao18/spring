@@ -6,6 +6,7 @@ import org.springframework.beans.factory.config.Scope;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+@SuppressWarnings({"rawtypes","unchecked"})
 public class CustomScope implements Scope {
 
     private ThreadLocal local = new ThreadLocal();
@@ -13,7 +14,7 @@ public class CustomScope implements Scope {
     @Override
     public Object get(String name, ObjectFactory<?> objectFactory) {
 
-        if(local.get() != null){
+        if (local.get() != null) {
             return local.get();
         }
         Object object = objectFactory.getObject();

@@ -37,6 +37,7 @@ public class ToolsClass {
         System.out.println(name);
     }
 
+    @SuppressWarnings("rawtypes")
     @Test
     public void BridgeMethodResolver() {
         ReflectionUtils.getAllDeclaredMethods(Jack.class);

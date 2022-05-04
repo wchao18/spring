@@ -70,10 +70,10 @@ public class XmlEntrance {
         System.out.println(propertiesBean.getName());*/
 
         //测试factoryBean
-      /*  Object user = classPathXmlApplicationContext.getBean("&userFactoryBean");
+        Object user = classPathXmlApplicationContext.getBean("&userFactoryBean");
         System.out.println(user);//FactoryBean对象,容器启动的时候已经创建好了
         user = classPathXmlApplicationContext.getBean("userFactoryBean");
-        System.out.println(user);//User对象*/
+        System.out.println(user);//User对象
 
         //多例bean,容器启动不会加载
        /* Object prototypeBeanA = classPathXmlApplicationContext.getBean("prototypeBeanA");
@@ -82,6 +82,6 @@ public class XmlEntrance {
         System.out.println(prototypeBeanA1);*/
 
        //自定义scope,容器启动不会加载
-        System.out.println(classPathXmlApplicationContext.getBean("customScopeBean"));
+        //System.out.println(classPathXmlApplicationContext.getBean("customScopeBean"));
     }
 }
