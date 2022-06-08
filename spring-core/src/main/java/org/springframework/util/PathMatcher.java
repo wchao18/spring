@@ -44,7 +44,7 @@ public interface PathMatcher {
 	 * @param path the path to check
 	 * @return {@code true} if the given {@code path} represents a pattern
 	 */
-	boolean isPattern(String path);
+	boolean isPattern(String path);//判断path是否是一个模式字符串（一般含有指定风格的特殊通配符就算是模式了）
 
 	/**
 	 * Match the given {@code path} against the given {@code pattern},
@@ -54,7 +54,7 @@ public interface PathMatcher {
 	 * @return {@code true} if the supplied {@code path} matched,
 	 * {@code false} if it didn't
 	 */
-	boolean match(String pattern, String path);
+	boolean match(String pattern, String path);//判断path和模式pattern是否匹配
 
 	/**
 	 * Match the given {@code path} against the corresponding part of the given
@@ -66,7 +66,7 @@ public interface PathMatcher {
 	 * @return {@code true} if the supplied {@code path} matched,
 	 * {@code false} if it didn't
 	 */
-	boolean matchStart(String pattern, String path);
+	boolean matchStart(String pattern, String path);//判断path是否和模式pattern前缀匹配
 
 	/**
 	 * Given a pattern and a full path, determine the pattern-mapped part.
@@ -88,7 +88,8 @@ public interface PathMatcher {
 	 * @return the pattern-mapped part of the given {@code path}
 	 * (never {@code null})
 	 */
-	String extractPathWithinPattern(String pattern, String path);
+	// /api/yourbatman/*.html为pattern，/api/yourbatman/form.html为path，那么该方法返回结果为form.html（注意：返回结果永远不为null，可能是空串）
+	String extractPathWithinPattern(String pattern, String path);//返回和pattern模式真正匹配上的那部分字符串
 
 	/**
 	 * Given a pattern and a full path, extract the URI template variables. URI template
@@ -99,7 +100,8 @@ public interface PathMatcher {
 	 * @param path the full path to extract template variables from
 	 * @return a map, containing variable names as keys; variables values as values
 	 */
-	Map<String, String> extractUriTemplateVariables(String pattern, String path);
+	// /api/yourbatman/{age}为pattern，/api/yourbatman/18为path，那么该方法返回结果为Map值为{"age" : 18}
+	Map<String, String> extractUriTemplateVariables(String pattern, String path);//提取path中模板变量
 
 	/**
 	 * Given a full path, returns a {@link Comparator} suitable for sorting patterns
@@ -111,7 +113,7 @@ public interface PathMatcher {
 	 * @param path the full path to use for comparison
 	 * @return a comparator capable of sorting patterns in order of explicitness
 	 */
-	Comparator<String> getPatternComparator(String path);
+	Comparator<String> getPatternComparator(String path);//路径比较器，用于排序确定优先级高低
 
 	/**
 	 * Combines two patterns into a new pattern that is returned.
@@ -121,6 +123,6 @@ public interface PathMatcher {
 	 * @return the combination of the two patterns
 	 * @throws IllegalArgumentException when the two patterns cannot be combined
 	 */
-	String combine(String pattern1, String pattern2);
+	String combine(String pattern1, String pattern2);//合并两个pattern模式，组合算法由具体实现自由决定
 
 }

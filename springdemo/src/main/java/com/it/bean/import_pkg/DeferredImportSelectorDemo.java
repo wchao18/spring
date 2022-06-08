@@ -15,7 +15,7 @@ public class DeferredImportSelectorDemo implements DeferredImportSelector {
 
     @Override
     public Class<? extends Group> getImportGroup() {
-        //步骤1
+        //步骤1,这个返回null 直接调用上面的selectImports
         return DeferredImportSelectorGroupDemo.class;
     }
 
