@@ -85,7 +85,7 @@ public abstract class ScopedProxyUtils {
 		}
 
 		// The target bean should be ignored in favor of the scoped proxy.
-		targetDefinition.setAutowireCandidate(false);
+		targetDefinition.setAutowireCandidate(false);//重点代码，其他对象匹配的时候将忽略本对象，转而本对象的代理
 		targetDefinition.setPrimary(false);
 
 		// Register the target bean as separate bean in the factory.

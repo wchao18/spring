@@ -95,12 +95,12 @@ public abstract class AbstractAdvisorAutoProxyCreator extends AbstractAutoProxyC
 		List<Advisor> candidateAdvisors = findCandidateAdvisors();
 		//判断找到的Advisor能不能作用到当前的类上
 		List<Advisor> eligibleAdvisors = findAdvisorsThatCanApply(candidateAdvisors, beanClass, beanName);
-		//
+		//针对@Aspect注解的切面添加了一个默认的切面 DefaultPointcutAdvisor，解决参数传递问题
 		extendAdvisors(eligibleAdvisors);
 
 		if (!eligibleAdvisors.isEmpty()) {
-			//对获取到的advisors上的@order和@Priority进行排序（寻找advisor中的时候做了一次排序）
-			eligibleAdvisors = sortAdvisors(eligibleAdvisors);
+			//先实现PriorityOrdered接口、Ordered接口、@Order（寻找advisor中的时候做了一次排序）
+			eligibleAdvisors = sortAdvisors(eligibleAdvisors);//其实这里没有对@Aspect注解类排序
 		}
 		return eligibleAdvisors;
 	}

@@ -163,7 +163,7 @@ public class ReflectiveAspectJAdvisorFactory extends AbstractAspectJAdvisorFacto
 				methods.add(method);
 			}
 		}, ReflectionUtils.USER_DECLARED_METHODS);
-		methods.sort(METHOD_COMPARATOR); //注解顺序+自然排序（ABB1CDD2）
+		methods.sort(METHOD_COMPARATOR); //注解顺序+方法名称自然排序（ABB1CDD2）
 		return methods;
 	}
 

@@ -1,5 +1,6 @@
 package com.it.aop.aspectj;
 
+import org.aopalliance.intercept.MethodInvocation;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.After;
@@ -28,8 +29,8 @@ public class AspectJAnnotationConfig {
 
     @Before("pc1()")
     public void before(JoinPoint joinPoint) {
-        //重点：
-        Method method = ExposeInvocationInterceptor.currentInvocation().getMethod();
+        //小技巧：各种方法的参数记不住的情况下，可以用如下的实现
+        MethodInvocation methodInvocation = ExposeInvocationInterceptor.currentInvocation();
         System.out.println("开始调用 " + joinPoint);
     }
 

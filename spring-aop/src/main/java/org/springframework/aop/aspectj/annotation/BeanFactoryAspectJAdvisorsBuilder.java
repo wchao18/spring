@@ -117,7 +117,7 @@ public class BeanFactoryAspectJAdvisorsBuilder {
 								MetadataAwareAspectInstanceFactory factory =
 										new BeanFactoryAspectInstanceFactory(this.beanFactory, beanName);
 								//Aspect里面的advice和pointcut被拆分成一个个的advisor，
-								// advisor里的advice和pointcut是1对1的关系
+								//（入口）advisor里的advice和pointcut是1对1的关系
 								List<Advisor> classAdvisors = this.advisorFactory.getAdvisors(factory);
 								if (this.beanFactory.isSingleton(beanName)) {
 									//单例则直接将Advisor类存到缓存

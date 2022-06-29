@@ -65,7 +65,7 @@ public class DefaultAdvisorChainFactory implements AdvisorChainFactory, Serializ
 			if (advisor instanceof PointcutAdvisor) {
 				// Add it conditionally.
 				PointcutAdvisor pointcutAdvisor = (PointcutAdvisor) advisor;
-				if (config.isPreFiltered() || pointcutAdvisor.getPointcut().getClassFilter().matches(actualClass)) {
+				if (config.isPreFiltered() || pointcutAdvisor.getPointcut().getClassFilter().matches(actualClass)) {//类匹配
 					//已预过滤过的或者这个切点适用于给定的接口或目标类
 					//从registry获取MethodInterceptor拦截器
 					MethodMatcher mm = pointcutAdvisor.getPointcut().getMethodMatcher();
@@ -77,9 +77,9 @@ public class DefaultAdvisorChainFactory implements AdvisorChainFactory, Serializ
 						match = ((IntroductionAwareMethodMatcher) mm).matches(method, actualClass, hasIntroductions);
 					}
 					else {
-						match = mm.matches(method, actualClass);
+						match = mm.matches(method, actualClass);//方法匹配
 					}
-					if (match) {
+					if (match) {//重点：获取切面advisor中的advice,并且包装成MethodInterceptor类型
 						MethodInterceptor[] interceptors = registry.getInterceptors(advisor);
 						// 动态匹配
 						if (mm.isRuntime()) {

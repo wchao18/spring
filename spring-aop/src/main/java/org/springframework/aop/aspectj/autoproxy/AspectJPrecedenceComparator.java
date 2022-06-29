@@ -78,7 +78,7 @@ class AspectJPrecedenceComparator implements Comparator<Advisor> {
 
 	@Override
 	public int compare(Advisor o1, Advisor o2) {
-		//对实现PriorityOrdered接口、带有@Order注解排序
+		//对实现PriorityOrdered接口和Ordered接口
 		int advisorPrecedence = this.advisorComparator.compare(o1, o2);
 		//aspect的名称一样的（declaredInSameAspect)
 		if (advisorPrecedence == SAME_PRECEDENCE && declaredInSameAspect(o1, o2)) {

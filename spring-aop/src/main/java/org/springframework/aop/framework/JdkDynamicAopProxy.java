@@ -104,7 +104,7 @@ final class JdkDynamicAopProxy implements AopProxy, InvocationHandler, Serializa
 		if (config.getAdvisors().length == 0 && config.getTargetSource() == AdvisedSupport.EMPTY_TARGET_SOURCE) {
 			throw new AopConfigException("No advisors and no TargetSource specified");
 		}
-		this.advised = config;
+		this.advised = config;//ProxyFactory
 	}
 
 
@@ -185,7 +185,7 @@ final class JdkDynamicAopProxy implements AopProxy, InvocationHandler, Serializa
 			}
 
 			Object retVal;
-			//是否将动态代理暴露给AopContext
+			//是否将动态代理暴露给AopContext; this.advised就是代理ProxyFactory
 			if (this.advised.exposeProxy) {
 				// Make invocation available if necessary.
 				oldProxy = AopContext.setCurrentProxy(proxy);

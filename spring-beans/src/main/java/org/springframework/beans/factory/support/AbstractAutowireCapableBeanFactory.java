@@ -630,13 +630,12 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 			populateBean(beanName, mbd, instanceWrapper);
 
 			//初始化bean，过程如下：
-			//1：判断是否实现了BeanNameAware，BeanClassLoaderAware，
-			//   BeanFactoryAware方法，如果有，则设置相关的属性
-			//2: 调用bean初始化的前置（BeanPostProcessor）操作
+			//1：判断是否实现了BeanNameAware，BeanClassLoaderAware、BeanFactoryAware方法，如果有，则设置相关的属性
+			//2: 调用bean初始化的 前置（BeanPostProcessor）操作
 			//3: 执行初始化的方法。
 			//	如果有initializingBean，则调用afterPropertiesSet
 			//	如果有InitMethod，则调用初始方法
-			//4: 调用bean初始化的后置（BeanPostProcessor）操作
+			//4: 调用bean初始化的 后置（BeanPostProcessor）操作
 			exposedObject = initializeBean(beanName, exposedObject, mbd);
 		}
 		catch (Throwable ex) {

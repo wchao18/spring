@@ -108,7 +108,7 @@ public class ScopedProxyFactoryBean extends ProxyConfig
 
 		// Add an introduction that implements only the methods on ScopedObject.
 		ScopedObject scopedObject = new DefaultScopedObject(cbf, this.scopedTargetSource.getTargetBeanName());
-		pf.addAdvice(new DelegatingIntroductionInterceptor(scopedObject));
+		pf.addAdvice(new DelegatingIntroductionInterceptor(scopedObject));//添加增强方法
 
 		// Add the AopInfrastructureBean marker to indicate that the scoped proxy
 		// itself is not subject to auto-proxying! Only its target bean is.

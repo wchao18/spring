@@ -223,7 +223,7 @@ public abstract class AopUtils {
 	 */
 	public static boolean canApply(Pointcut pc, Class<?> targetClass, boolean hasIntroductions) {
 		Assert.notNull(pc, "Pointcut must not be null");
-		//对bean进行粗筛
+		//1、对类匹配
 		if (!pc.getClassFilter().matches(targetClass)) {
 			return false;
 		}
@@ -252,7 +252,7 @@ public abstract class AopUtils {
 		}
 		//获取到targetClass所实现的接口的class对象，然后加入到集合中
 		classes.addAll(ClassUtils.getAllInterfacesForClassAsSet(targetClass));
-
+        //2、对方法匹配
 		for (Class<?> clazz : classes) {
 			Method[] methods = ReflectionUtils.getAllDeclaredMethods(clazz);
 			for (Method method : methods) {
@@ -334,7 +334,7 @@ public abstract class AopUtils {
 				// already processed
 				continue;
 			}
-			//canApply
+			//入口
 			if (canApply(candidate, clazz, hasIntroductions)) {
 				eligibleAdvisors.add(candidate);
 			}

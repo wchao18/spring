@@ -265,7 +265,7 @@ public abstract class AbstractAutoProxyCreator extends ProxyProcessorSupport
 				return null;
 			}
 			// 1. 判断当前bean是否是基础类型：是否实现了Advice，Pointcut，Advisor，AopInfrastructureBean这些接口或是否是切面(@Aspect注解)
-			// 2. 判断是不是应该跳过 (AOP解析直接解析出我们的切面信息，而事务在这里是不会解析的) 、shouldSkip(重点)
+			// 2. 判断是不是应该跳过 (AOP解析直接解析出我们的切面信息，而事务在这里是不会解析的) 、shouldSkip(重点)->缓存切面类
 			if (isInfrastructureClass(beanClass) || shouldSkip(beanClass, beanName)) {
 				this.advisedBeans.put(cacheKey, Boolean.FALSE);
 				return null;
@@ -371,7 +371,7 @@ public abstract class AbstractAutoProxyCreator extends ProxyProcessorSupport
 		if (Boolean.FALSE.equals(this.advisedBeans.get(cacheKey))) {
 			return bean;
 		}
-		//是不是基础的bean 是不是需要跳过的
+		//是不是基础的bean 是不是需要跳过的 shouldSkip查找缓存中是否存在advisors，没有重新在所有的类中匹配
 		if (isInfrastructureClass(bean.getClass()) || shouldSkip(bean.getClass(), beanName)) {
 			this.advisedBeans.put(cacheKey, Boolean.FALSE);
 			return bean;
@@ -584,7 +584,7 @@ public abstract class AbstractAutoProxyCreator extends ProxyProcessorSupport
 	 */
 	protected Advisor[] buildAdvisors(@Nullable String beanName, @Nullable Object[] specificInterceptors) {
 		// Handle prototypes correctly...
-		// 解析interceptorNames而来得Advisor数组
+		// 解析interceptorNames而来得Advisor数组,
 		Advisor[] commonInterceptors = resolveInterceptorNames();
 
 		List<Object> allInterceptors = new ArrayList<>();

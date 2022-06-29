@@ -98,7 +98,7 @@ public abstract class AbstractBeanFactoryBasedTargetSourceCreator
 		if (logger.isDebugEnabled()) {
 			logger.debug("Configuring AbstractBeanFactoryBasedTargetSource: " + targetSource);
 		}
-
+        //建立新的BeanFactory
 		DefaultListableBeanFactory internalBeanFactory = getInternalBeanFactoryForBean(beanName);
 
 		// We need to override just this bean definition, as it may reference other beans
@@ -107,7 +107,7 @@ public abstract class AbstractBeanFactoryBasedTargetSourceCreator
 		BeanDefinition bd = this.beanFactory.getMergedBeanDefinition(beanName);
 		GenericBeanDefinition bdCopy = new GenericBeanDefinition(bd);
 		if (isPrototypeBased()) {
-			bdCopy.setScope(BeanDefinition.SCOPE_PROTOTYPE);
+			bdCopy.setScope(BeanDefinition.SCOPE_PROTOTYPE);//多例
 		}
 		internalBeanFactory.registerBeanDefinition(beanName, bdCopy);
 
@@ -127,7 +127,7 @@ public abstract class AbstractBeanFactoryBasedTargetSourceCreator
 		synchronized (this.internalBeanFactories) {
 			DefaultListableBeanFactory internalBeanFactory = this.internalBeanFactories.get(beanName);
 			if (internalBeanFactory == null) {
-				internalBeanFactory = buildInternalBeanFactory(this.beanFactory);
+				internalBeanFactory = buildInternalBeanFactory(this.beanFactory);//建立新的beanFactory
 				this.internalBeanFactories.put(beanName, internalBeanFactory);
 			}
 			return internalBeanFactory;

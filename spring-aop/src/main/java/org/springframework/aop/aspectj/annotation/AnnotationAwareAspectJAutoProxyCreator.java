@@ -91,7 +91,7 @@ public class AnnotationAwareAspectJAutoProxyCreator extends AspectJAwareAdvisorA
 		// Add all the Spring advisors found according to superclass rules
 		// 使用注解方式配置AOP的时候还是能够支持对XML配置的AOP的支持的
 		// 实现Advisor的接口的切面类
-		List<Advisor> advisors = super.findCandidateAdvisors();
+		List<Advisor> advisors = super.findCandidateAdvisors();//重点：先从父类AbstractAdvisorAutoProxyCreator中查找实现Advisor接口的类
 		// Build Advisors for all AspectJ aspects in the bean factory.
 		if (this.aspectJAdvisorsBuilder != null) {
 			//重点: 查找@Aspect注解的类+ advisor排序
