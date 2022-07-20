@@ -205,7 +205,7 @@ class ConfigurationClassBeanDefinitionReader {
 		for (String alias : names) {
 			this.registry.registerAlias(beanName, alias);
 		}
-
+        //判断是否被覆盖（重点代码）
 		// Has this effectively been overridden before (e.g. via XML)?
 		if (isOverriddenByExistingDefinition(beanMethod, beanName)) {
 			if (beanName.equals(beanMethod.getConfigurationClass().getBeanName())) {

@@ -182,6 +182,7 @@ public abstract class DataSourceUtils {
 				if (logger.isDebugEnabled()) {
 					logger.debug("Setting JDBC Connection [" + con + "] read-only");
 				}
+				//设置只读属性
 				con.setReadOnly(true);
 			}
 			catch (SQLException | RuntimeException ex) {

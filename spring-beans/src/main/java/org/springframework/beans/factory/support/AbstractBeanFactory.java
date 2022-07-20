@@ -248,7 +248,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 		Object bean;
 
 		// Eagerly check singleton cache for manually registered singletons.
-		// 尝试从单例缓存集合里获取bean实例
+		//(重要)尝试从单例缓存集合里获取bean实例
 		Object sharedInstance = getSingleton(beanName);
 
 		//如果先前已经创建过单例Bean的实例，并且调用的getBean方法传入的参数为空
@@ -356,6 +356,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 				//如果BeanDefinition为单例
 				if (mbd.isSingleton()) {
 					//这里使用了一个匿名内部类，创建Bean实例对象，并且注册给所依赖的对象
+					//这里在创建bean的时候加了synchronized锁，解决了多线程下bean获取不完整的情况的
 					sharedInstance = getSingleton(beanName, () -> {
 						try {
 							return createBean(beanName, mbd, args);

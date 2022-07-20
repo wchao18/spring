@@ -83,8 +83,8 @@ abstract class ConfigurationClassUtils {
 	 */
 	public static boolean checkConfigurationClassCandidate(
 			BeanDefinition beanDef, MetadataReaderFactory metadataReaderFactory) {
-
-		String className = beanDef.getBeanClassName();
+        //@Bean定义的配置对象是不起作用的（感觉像个bug）
+		String className = beanDef.getBeanClassName();//难点
 		if (className == null || beanDef.getFactoryMethodName() != null) {
 			return false;
 		}
@@ -124,11 +124,13 @@ abstract class ConfigurationClassUtils {
 		}
 
 		Map<String, Object> config = metadata.getAnnotationAttributes(Configuration.class.getName());
-		//如果有Configuration注解,就是完全匹配标识
+		//如果有Configuration注解 and proxyBeanMethods不等于false -> full
 		if (config != null && !Boolean.FALSE.equals(config.get("proxyBeanMethods"))) {
 			beanDef.setAttribute(CONFIGURATION_CLASS_ATTRIBUTE, CONFIGURATION_CLASS_FULL);
 		}
-		//判断是否含有@Component、@ComponentScan、@Import、@ImportResource @Bean
+		//如果有Configuration注解 and proxyBeanMethods等于false -> lite
+		//不存在@Configuration 只要有@Component、@ComponentScan、@Import、@ImportResource 其中一个 -> lite
+        //不存在@Configuration 只要有@Bean -> lite
 		else if (config != null || isConfigurationCandidate(metadata)) {
 			beanDef.setAttribute(CONFIGURATION_CLASS_ATTRIBUTE, CONFIGURATION_CLASS_LITE);
 		}

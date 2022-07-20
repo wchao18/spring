@@ -224,6 +224,7 @@ class ConfigurationClassParser {
 
         ConfigurationClass existingClass = this.configurationClasses.get(configClass);
         if (existingClass != null) {
+            //A 导入C B导入C ,
             if (configClass.isImported()) {
                 if (existingClass.isImported()) {
                     existingClass.mergeImportedBy(configClass);
@@ -237,7 +238,7 @@ class ConfigurationClassParser {
                 this.knownSuperclasses.values().removeIf(configClass::equals);
             }
         }
-
+        //递归处理@Configuration的类以及其父类
         // Recursively process the configuration class and its superclass hierarchy.
         SourceClass sourceClass = asSourceClass(configClass);
         do {
@@ -295,7 +296,7 @@ class ConfigurationClassParser {
                     if (bdCand == null) {
                         bdCand = holder.getBeanDefinition();
                     }
-                    //这里又去递归，扫描到@Component生成的BeanDefinition后，有递归去校验类上面是否有特殊的注解
+                    //这里又去递归，扫描到@ComponentScan生成的BeanDefinition后，有递归去校验类上面是否有特殊的注解
                     if (ConfigurationClassUtils.checkConfigurationClassCandidate(bdCand, this.metadataReaderFactory)) {
                         parse(bdCand.getBeanClassName(), holder.getBeanName());
                     }
@@ -319,12 +320,13 @@ class ConfigurationClassParser {
             }
         }
 
-        //处理@Bean注解
+        //处理@Bean注解，但是没有真正处理@Bean,只是暂时找出来
         Set<MethodMetadata> beanMethods = retrieveBeanMethodMetadata(sourceClass);
         for (MethodMetadata methodMetadata : beanMethods) {
             configClass.addBeanMethod(new BeanMethod(methodMetadata, configClass));
         }
 
+        //解析配置类中所实现的接口中的@Bean,但是没有真正处理@Bean,只是暂时找出来
         // Process default methods on interfaces
         processInterfaces(configClass, sourceClass);
 

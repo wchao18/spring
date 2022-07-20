@@ -5,6 +5,7 @@ import com.it.bean.configurationAnnoBean.Lison;
 import com.it.bean.configurationAnnoBean.LisonFactory;
 import com.it.bean.scanbean.ScanBean;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.context.annotation.Conditional;
 import org.springframework.context.annotation.Configuration;
 
 /**

@@ -1,5 +1,6 @@
 package com.it.postprocessor.factory;
 
+import com.it.postprocessor.factory.annotation.CustomBeanClass;
 import com.it.postprocessor.factory.annotation.MyServiceAnnotation;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
@@ -28,11 +29,12 @@ public class MyBeanDefinitionRegistryPostProcessor implements BeanDefinitionRegi
 
     @Override  //先执行的
     public void postProcessBeanDefinitionRegistry(BeanDefinitionRegistry registry) throws BeansException {
-        //自定义扫描注解 com.it.postprocessor.factory.CustomBeanClass
-        /*GenericBeanDefinition genericBeanDefinition = new GenericBeanDefinition();
+
+       /* GenericBeanDefinition genericBeanDefinition = new GenericBeanDefinition();
         genericBeanDefinition.setBeanClass(CustomBeanClass.class);
         registry.registerBeanDefinition("customeBean", genericBeanDefinition);*/
 
+        //自定义扫描注解 com.it.postprocessor.factory.CustomBeanClass
         ClassPathBeanDefinitionScanner classPathBeanDefinitionScanner = new ClassPathBeanDefinitionScanner(registry);
         classPathBeanDefinitionScanner.addIncludeFilter(new AnnotationTypeFilter(MyServiceAnnotation.class));
         classPathBeanDefinitionScanner.scan("com.it.postprocessor.factory.annotation");

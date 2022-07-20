@@ -146,8 +146,8 @@ public class DefaultSingletonBeanRegistry extends SimpleAliasRegistry implements
 		synchronized (this.singletonObjects) {
 			//Bean实例完成创建之后，只保留一级缓存以及注册beanName的顺序，其余的清除
 			this.singletonObjects.put(beanName, singletonObject);
-			this.singletonFactories.remove(beanName);
-			this.earlySingletonObjects.remove(beanName);
+			this.singletonFactories.remove(beanName); //删除三级缓存
+			this.earlySingletonObjects.remove(beanName);//删除二级缓存
 			this.registeredSingletons.add(beanName);
 		}
 	}

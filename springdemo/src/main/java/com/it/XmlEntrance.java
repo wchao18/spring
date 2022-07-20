@@ -4,6 +4,7 @@ import com.it.bean.factory.UserFactory;
 import com.it.bean.factorybean.User;
 import com.it.bean.factorybean.UserFactoryBean;
 import com.it.bean.propertiesbean.PropertiesBean;
+import com.it.postprocessor.factory.annotation.CustomBeanClass;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 public class XmlEntrance {
@@ -59,8 +60,8 @@ public class XmlEntrance {
         originClass.method("");*/
 
         //自定义注解扫描器
-        /*CustomBeanClass customScannerBeanClass = classPathXmlApplicationContext.getBean(CustomBeanClass.class);
-        System.out.println(customScannerBeanClass);*/
+        CustomBeanClass customScannerBeanClass = classPathXmlApplicationContext.getBean(CustomBeanClass.class);
+        System.out.println(customScannerBeanClass);
 
         //bean销毁
         //classPathXmlApplicationContext.getBeanFactory().destroySingletons();
@@ -70,10 +71,10 @@ public class XmlEntrance {
         System.out.println(propertiesBean.getName());*/
 
         //测试factoryBean
-        Object user = classPathXmlApplicationContext.getBean("&userFactoryBean");
+      /*  Object user = classPathXmlApplicationContext.getBean("&userFactoryBean");
         System.out.println(user);//FactoryBean对象,容器启动的时候已经创建好了
         user = classPathXmlApplicationContext.getBean("userFactoryBean");
-        System.out.println(user);//User对象
+        System.out.println(user);//User对象*/
 
         //多例bean,容器启动不会加载
        /* Object prototypeBeanA = classPathXmlApplicationContext.getBean("prototypeBeanA");
