@@ -3,6 +3,7 @@ package com.it.bean.litefull.fullpkg;
 import com.it.bean.litefull.LiteFullUser;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 @Configuration
@@ -28,7 +29,7 @@ public class FullConfig {
         user.setName("A哥-lite2");
         user.setAge(18);
         // 模拟依赖于user实例  看看是否是同一实例
-        System.out.println("hashcode1: " + System.identityHashCode(user()));
+        System.out.println("hashcode1: " + System.identityHashCode(user()));//user方法走了代理
         System.out.println("hashcode2: " + System.identityHashCode(user()));
         return user;
     }

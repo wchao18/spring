@@ -318,6 +318,7 @@ class ConfigurationClassBeanDefinitionReader {
 
 		// A bean definition resulting from a component scan can be silently overridden
 		// by an @Bean method, as of 4.2...
+		//@ComponentScan扫描得到的类型
 		if (existingBeanDef instanceof ScannedGenericBeanDefinition) {
 			return false;
 		}

@@ -12,6 +12,7 @@ public class LiteFullAnnotationEntrance {
                 new AnnotationConfigApplicationContext(LiteFullAnnotationEntrance.class);
         //配置类情况
         System.out.println(context.getBean(FullConfig.class).getClass());
+        System.out.println(context.getBean(FullConfig.class).getClass().getSuperclass() == FullConfig.class);//true
         System.out.println(context.getBean(FullConfig.InnerConfig.class).getClass());
 
         String[] beanNames = context.getBeanNamesForType(LiteFullUser.class);

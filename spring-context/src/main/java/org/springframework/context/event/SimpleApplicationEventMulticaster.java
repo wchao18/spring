@@ -132,10 +132,11 @@ public class SimpleApplicationEventMulticaster extends AbstractApplicationEventM
 		ResolvableType type = (eventType != null ? eventType : resolveDefaultEventType(event));
 		Executor executor = getTaskExecutor();
 		for (ApplicationListener<?> listener : getApplicationListeners(event, type)) {
+			//异步执行
 			if (executor != null) {
 				executor.execute(() -> invokeListener(listener, event));
 			}
-			else {
+			else {//同步执行
 				invokeListener(listener, event);
 			}
 		}

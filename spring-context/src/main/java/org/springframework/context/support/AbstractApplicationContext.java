@@ -537,7 +537,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
     public void refresh() throws BeansException, IllegalStateException {
         // 给容器refresh加锁，避免容器处在refresh阶段时，容器进行了初始化或者销毁的操作
         synchronized (this.startupShutdownMonitor) {
-            // 调用容器准备刷新的方法，获取容器的当时时间，同时给容器设置同步标识，具体方法
+            // 调用容器准备刷新的方法，获取容器的当时时间，同时给容器设置同步标识，
             prepareRefresh();
 
             //告诉子类启动refreshBeanFactory()方法，Bean定义资源文件的载入从
@@ -724,7 +724,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
         beanFactory.registerResolvableDependency(ApplicationEventPublisher.class, this);
         beanFactory.registerResolvableDependency(ApplicationContext.class, this);
 
-        // 注册早期后置处理器，用于检测内部bean作为应用程序监听器
+        // ApplicationListenerDetector 解析实现接口方式的监听器
         //ApplicationListenerDetector的作用就是判断某个Bean是否是ApplicationListener，
         // 如果是，加入到事件监听者队列。
         beanFactory.addBeanPostProcessor(new ApplicationListenerDetector(this));
@@ -880,7 +880,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 
     /**
      * 添加应用程序监听器作为监听器的bean。
-     * 不影响其他监听器，可以在没有bean的情况下添加。
+     * ApplicationListener接口层面监听器
      */
     protected void registerListeners() {
         // 1、去集合applicationListeners中查找，找到实现ApplicationListener的bean
@@ -898,6 +898,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 
         // 至此，已经完成将监听器注册到ApplicationEventMulticaster中，
         // 现在我们最终拥有一个多路广播器来发布前期的应用程序事件给监听器.
+        //位置：org.springframework.context.support.AbstractApplicationContext.prepareRefresh
         Set<ApplicationEvent> earlyEventsToProcess = this.earlyApplicationEvents;
         this.earlyApplicationEvents = null;
         if (earlyEventsToProcess != null) {

@@ -95,6 +95,7 @@ class ConfigurationClassEnhancer {
 	 * @return the enhanced subclass
 	 */
 	public Class<?> enhance(Class<?> configClass, @Nullable ClassLoader classLoader) {
+		//如果已经实现了该接口，证明已经被代理过了,直接返回呗
 		if (EnhancedConfiguration.class.isAssignableFrom(configClass)) {
 			if (logger.isDebugEnabled()) {
 				logger.debug(String.format("Ignoring request to enhance %s as it has " +
@@ -120,10 +121,14 @@ class ConfigurationClassEnhancer {
 	private Enhancer newEnhancer(Class<?> configSuperClass, @Nullable ClassLoader classLoader) {
 		Enhancer enhancer = new Enhancer();
 		enhancer.setSuperclass(configSuperClass);
+		//让代理类实现EnhancedConfiguration接口，这个接口继承了BeanFactoryAware接口
 		enhancer.setInterfaces(new Class<?>[] {EnhancedConfiguration.class});
+		//设置生成的代理类不实现org.springframework.cglib.proxy.Factory接口
 		enhancer.setUseFactory(false);
+		//代理类生成策略： 名称后缀加BySpringCGLIB
 		enhancer.setNamingPolicy(SpringNamingPolicy.INSTANCE);
 		enhancer.setStrategy(new BeanFactoryAwareGeneratorStrategy(classLoader));
+		//设置拦截器
 		enhancer.setCallbackFilter(CALLBACK_FILTER);
 		enhancer.setCallbackTypes(CALLBACK_FILTER.getCallbackTypes());
 		return enhancer;
@@ -271,17 +276,19 @@ class ConfigurationClassEnhancer {
 		@Override
 		@Nullable
 		public Object intercept(Object obj, Method method, Object[] args, MethodProxy proxy) throws Throwable {
-			Field field = ReflectionUtils.findField(obj.getClass(), BEAN_FACTORY_FIELD);
-			Assert.state(field != null, "Unable to find generated BeanFactory field");
-			field.set(obj, args[0]);
+            //找到本类（代理类）里名为`$$beanFactory`的字段,若没找到直接报错。若找到了此字段，就给此字段赋值
+            Field field = ReflectionUtils.findField(obj.getClass(), BEAN_FACTORY_FIELD);
+            Assert.state(field != null, "Unable to find generated BeanFactory field");
+            field.set(obj, args[0]);
 
-			// Does the actual (non-CGLIB) superclass implement BeanFactoryAware?
-			// If so, call its setBeanFactory() method. If not, just exit.
-			if (BeanFactoryAware.class.isAssignableFrom(ClassUtils.getUserClass(obj.getClass().getSuperclass()))) {
-				return proxy.invokeSuper(obj, args);
-			}
-			return null;
-		}
+            // Does the actual (non-CGLIB) superclass implement BeanFactoryAware?
+            // If so, call its setBeanFactory() method. If not, just exit.
+            //如果用户类（也就是你自己定义的类）自己实现了该接口，那么别担心，也会给你赋值上
+            if (BeanFactoryAware.class.isAssignableFrom(ClassUtils.getUserClass(obj.getClass().getSuperclass()))) {
+                return proxy.invokeSuper(obj, args);
+            }
+            return null;
+        }
 
 		@Override
 		public boolean isMatch(Method candidateMethod) {
@@ -316,7 +323,10 @@ class ConfigurationClassEnhancer {
 		public Object intercept(Object enhancedConfigInstance, Method beanMethod, Object[] beanMethodArgs,
 					MethodProxy cglibMethodProxy) throws Throwable {
 
+			// 通过反射，获取到Bean工厂。也就是$$beanFactory这个属性的值
 			ConfigurableBeanFactory beanFactory = getBeanFactory(enhancedConfigInstance);
+
+			//获取beanName
 			String beanName = BeanAnnotationHelper.determineBeanNameFor(beanMethod);
 
 			// Determine whether this bean is a scoped-proxy
@@ -334,6 +344,10 @@ class ConfigurationClassEnhancer {
 			// proxy that intercepts calls to getObject() and returns any cached bean instance.
 			// This ensures that the semantics of calling a FactoryBean from within @Bean methods
 			// is the same as that of referring to a FactoryBean within XML. See SPR-6602.
+
+			// 首先：检查所请求的Bean是否是FactoryBean。也就是bean名称为`&parent`的Bean是否存在
+			// 如果是的话，就创建一个代理子类，拦截它的getObject()方法以返回容器里的实例
+			// 这样做保证了方法返回一个FactoryBean和@Bean的语义是效果一样的，确保了不会重复创建多个Bean
 			if (factoryContainsBean(beanFactory, BeanFactory.FACTORY_BEAN_PREFIX + beanName) &&
 					factoryContainsBean(beanFactory, beanName)) {
 				Object factoryBean = beanFactory.getBean(BeanFactory.FACTORY_BEAN_PREFIX + beanName);
@@ -361,10 +375,10 @@ class ConfigurationClassEnhancer {
 									"these container lifecycle issues; see @Bean javadoc for complete details.",
 							beanMethod.getDeclaringClass().getSimpleName(), beanMethod.getName()));
 				}
-				//调用被代理方法
+				//调用目标类方法
 				return cglibMethodProxy.invokeSuper(enhancedConfigInstance, beanMethodArgs);
 			}
-			//用代理对象手动调用@Bean的方法的时候才会走
+			//用代理对象手动调用@Bean的方法的时候才会走（beanFactory.getBean）
 			return resolveBeanReference(beanMethod, beanMethodArgs, beanFactory, beanName);
 		}
 
@@ -391,7 +405,7 @@ class ConfigurationClassEnhancer {
 							break;
 						}
 					}
-				}
+				}//容器中获取getBean
 				Object beanInstance = (useArgs ? beanFactory.getBean(beanName, beanMethodArgs) :
 						beanFactory.getBean(beanName));
 				if (!ClassUtils.isAssignableValue(beanMethod.getReturnType(), beanInstance)) {
@@ -419,11 +433,11 @@ class ConfigurationClassEnhancer {
 						}
 						throw new IllegalStateException(msg);
 					}
-				}
+				}//当前被调用的方法，是parent()方法
 				Method currentlyInvoked = SimpleInstantiationStrategy.getCurrentlyInvokedFactoryMethod();
 				if (currentlyInvoked != null) {
 					String outerBeanName = BeanAnnotationHelper.determineBeanNameFor(currentlyInvoked);
-					beanFactory.registerDependentBean(beanName, outerBeanName);
+					beanFactory.registerDependentBean(beanName, outerBeanName);//注入依赖关系
 				}
 				return beanInstance;
 			}
@@ -438,7 +452,7 @@ class ConfigurationClassEnhancer {
 		public boolean isMatch(Method candidateMethod) {
 			return (candidateMethod.getDeclaringClass() != Object.class &&
 					!BeanFactoryAwareMethodInterceptor.isSetBeanFactory(candidateMethod) &&
-					BeanAnnotationHelper.isBeanAnnotated(candidateMethod));
+					BeanAnnotationHelper.isBeanAnnotated(candidateMethod));//判断@Bean注解
 		}
 
 		private ConfigurableBeanFactory getBeanFactory(Object enhancedConfigInstance) {
@@ -494,7 +508,9 @@ class ConfigurationClassEnhancer {
 				Class<?> clazz = factoryBean.getClass();
 				boolean finalClass = Modifier.isFinal(clazz.getModifiers());
 				boolean finalMethod = Modifier.isFinal(clazz.getMethod("getObject").getModifiers());
+				// 类和方法其中有一个是final，那就只能看看能不能走接口代理喽
 				if (finalClass || finalMethod) {
+					// @Bean标注的方法返回值若是接口类型 尝试走基于接口的JDK动态代理
 					if (exposedType.isInterface()) {
 						if (logger.isTraceEnabled()) {
 							logger.trace("Creating interface proxy for FactoryBean '" + beanName + "' of type [" +
@@ -502,6 +518,7 @@ class ConfigurationClassEnhancer {
 									(finalClass ? "implementation class" : "getObject() method") +
 									" is final: Otherwise a getObject() call would not be routed to the factory.");
 						}
+						//JDK代理
 						return createInterfaceProxyForFactoryBean(factoryBean, exposedType, beanFactory, beanName);
 					}
 					else {
@@ -512,6 +529,7 @@ class ConfigurationClassEnhancer {
 									" is final: A getObject() call will NOT be routed to the factory. " +
 									"Consider declaring the return type as a FactoryBean interface.");
 						}
+						//类或方法存在final情况，但是呢返回类型又不是
 						return factoryBean;
 					}
 				}
@@ -519,7 +537,7 @@ class ConfigurationClassEnhancer {
 			catch (NoSuchMethodException ex) {
 				// No getObject() method -> shouldn't happen, but as long as nobody is trying to call it...
 			}
-
+			//类和方法都不是final，生成一个CGLIB的动态代理
 			return createCglibProxyForFactoryBean(factoryBean, beanFactory, beanName);
 		}
 
@@ -530,7 +548,7 @@ class ConfigurationClassEnhancer {
 					factoryBean.getClass().getClassLoader(), new Class<?>[] {interfaceType},
 					(proxy, method, args) -> {
 						if (method.getName().equals("getObject") && args == null) {
-							return beanFactory.getBean(beanName);
+							return beanFactory.getBean(beanName);//从容器中获取
 						}
 						return ReflectionUtils.invokeMethod(method, factoryBean, args);
 					});

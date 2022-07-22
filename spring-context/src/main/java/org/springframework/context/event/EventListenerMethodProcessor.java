@@ -96,7 +96,7 @@ public class EventListenerMethodProcessor
 		this.eventListenerFactories = factories;
 	}
 
-
+	//解析注解监听器
 	@Override
 	public void afterSingletonsInstantiated() {
 		ConfigurableListableBeanFactory beanFactory = this.beanFactory;
@@ -131,6 +131,7 @@ public class EventListenerMethodProcessor
 						}
 					}
 					try {
+						//入口
 						processBean(beanName, type);
 					}
 					catch (Throwable ex) {
