@@ -10,12 +10,7 @@ import org.springframework.util.ClassUtils;
 import java.io.IOException;
 import java.util.Properties;
 
-/**
- * @author WangYang
- * @ClassName:
- * @Description:
- * @date 2021-01-10-23:29
- */
+
 public class OnPropertyCondition implements Condition {
     @Override
     public boolean matches(ConditionContext context, AnnotatedTypeMetadata metadata) {

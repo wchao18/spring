@@ -24,12 +24,12 @@ public class OnBeanCondition implements Condition {
                         .filter(MergedAnnotationPredicates.unique(MergedAnnotation::getMetaTypes))
                         .collect(MergedAnnotationCollectors.toMultiValueMap(MergedAnnotation.Adapt.CLASS_TO_STRING));
 
-                MergedAnnotation<ConditionOnBean> cob = annotations.get(ConditionOnBean.class);
-                Optional<Object> value = cob.getValue("value");
+                /*MergedAnnotation<ConditionOnBean> cob = annotations.get(ConditionOnBean.class);
+                Optional<Object> value = cob.getValue("value");*/
                 String[] values = context.getBeanFactory().getBeanNamesForType(ClassUtils.forName(((String[]) attributes.get("value").get(0))[0] + "", ClassUtils.getDefaultClassLoader())
                 ,true,false);
                 //String[] beanNamesForType = context.getBeanFactory().getBeanNamesForType(CQ.class);
-                final String[] beanDefinitionNames = context.getRegistry().getBeanDefinitionNames();
+                //final String[] beanDefinitionNames = context.getRegistry().getBeanDefinitionNames();
                 if (!StringUtils.isEmpty(values) && values.length > 0) {
                     return true;
                 }
